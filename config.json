@@ -1,0 +1,383 @@
+{
+  "moveFiles": {
+    "enabled": true,
+    "replaceConfig": true,
+    "sourceTranslation": "en",
+    "translationName": "en(short)"
+  },
+  "replaceFilesEnabled": true,
+  "statuses": {
+    "enabled": true,
+    "replaceIcon": "▲",
+    "fields": {
+      "required": ["id", "name"],
+      "optional": ["summary", "undefined", "desc"]
+    },
+    "ignoredFiles": ["SkillTag.json", "AttributeText.json"]
+  },
+  "skillTagPersistency": true,
+  "replace":[
+    {
+      "fields": [
+        "name"
+      ],
+      "changes": [
+        {
+          "from": "On ",
+          "to": ""
+        }
+      ]
+    },
+    {
+      "fields": [
+        "desc"
+      ],
+      "changes": [
+        {
+          "from": "’",
+          "to": "'"
+        },
+        {
+          "from": "\\(Max",
+          "to": "(max",
+          "regex": true
+        },
+        {
+          "from": "damage",
+          "to": "Damage"
+        },
+        {
+          "from": "Coin Power",
+          "to": "[PlusCoinValueUp]"
+        },
+        {
+          "from": "Clash Power",
+          "to": "[ParryingResultUp]"
+        },
+        {
+          "from": "Skill Power",
+          "to": "[ResultEnhancement]"
+        },
+        {
+          "from": "Base Power",
+          "to": "[ResultEnhancement]"
+        },
+        {
+          "from": "On Hit with this Skill:",
+          "to": "[OnSucceedAttack]"
+        },
+        {
+          "from": "Atk Weight",
+          "to": "AoE"
+        },
+        {
+          "from": "on Critical Hit",
+          "to": "on Crit"
+        },
+        {
+          "regex": true,
+          "from": "If target has ([^,\n]+),",
+          "to": "Target: \\1 ->"
+        },
+        {
+          "regex": true,
+          "from": "if target has ([^,\n]+),",
+          "to": "Target: \\1 ->"
+        },
+        {
+          "regex": true,
+          "from": "If target's (\\S+) below (\\S+),",
+          "to": "Target: \\1 < \\2 ->"
+        },
+        {
+          "regex": true,
+          "from": "If target's (\\S+) is below (\\S+),",
+          "to": "Target: \\1 < \\2 ->"
+        },
+        {
+          "regex": true,
+          "from": "If target's (\\S+) is above (\\S+),",
+          "to": "Target: \\1 > \\2 ->"
+        },
+        {
+          "regex": true,
+          "from": "([^,\n]+) for every type of negative effect on target",
+          "to": "Target: per negative effect type -> \\1"
+        },
+        {
+          "from": "negative effect",
+          "to": "ailment"
+        },
+        {
+          "regex": true,
+          "from": "Raise Stagger Threshold by (\\S+) of Damage dealt",
+          "to": "Target: Raise Stagger by \\1 of Damage"
+        },
+        {
+          "regex": true,
+          "from": "([^,\n]+) per ([^,\n]+) on target",
+          "to": "Target: per \\2 -> \\1"
+        },
+        {
+          "regex": true,
+          "from": "([^,\n]+) for every ([^,\n]+) on target",
+          "to": "Target: per \\2 -> \\1"
+        },
+        {
+          "regex": true,
+          "from": "([^,\n]+) for every ([^,\n]+) on self",
+          "to": "Self: per \\2 -> \\1"
+        },
+        {
+          "regex": true,
+          "from": "([^,\n]+) for (?:<style=\"highlight\">)?every(?:</style>)? ([^,\n]+) on self",
+          "to": "Self: per \\2 -> \\1"
+        },
+        {
+          "regex": true,
+          "from": "For every ([^,\n]+) on self,",
+          "to": "Self: per \\1 ->"
+        },
+        {
+          "regex": true,
+          "from": "([^,\n]+) for every ([^,\n]+) \\(max (\\d+)\\)",
+          "to": "Self: per \\2 -> \\1 (max \\3)"
+        },
+        {
+          "from": "for every",
+          "to": "per"
+        },
+        {
+          "regex": true,
+          "from": "At (\\d+)\\+ SP,",
+          "to": "Self: SP >= \\1 ->"
+        },
+        {
+          "regex": true,
+          "from": "At (\\d+) or less SP,",
+          "to": "Self: SP <= \\1 ->"
+        },
+        {
+          "regex": true,
+          "from": "When below -(\\d+)SP,",
+          "to": "Self: SP < -\\1 ->"
+        },
+        {
+          "regex": true,
+          "from": "([^,\n]+) when below (\\d+) SP",
+          "to": "Self: SP < \\2 -> \\1"
+        },
+        {
+          "regex": true,
+          "from": "If this unit has ([^,\n]+),",
+          "to": "Self: \\1 ->"
+        },
+        {
+          "regex": true,
+          "from": "If user has ([^,\n]+),",
+          "to": "Self: \\1 ->"
+        },
+        {
+          "regex": true,
+          "from": "At (\\d+)\\+ ([^,\n]+),",
+          "to": "Self: \\1 \\2 ->"
+        },
+        {
+          "regex": true,
+          "from": "At less than (\\d+) ([^,\n]+),",
+          "to": "Self: \\2 < \\1 ->"
+        },
+        {
+          "regex": true,
+          "from": "When at less than (\\d+) ([^,\n]+),",
+          "to": "Self: \\2 < \\1 ->"
+        },
+        {
+          "regex": true,
+          "from": "Lower user's Stagger Threshold by (\\S+) of Damage dealt",
+          "to": "Self: Lower Stagger by \\1 of Damage"
+        },
+        {
+          "from": "If this Skill attack kills the target,",
+          "to": "Kill ->"
+        },
+        {
+          "from": "On kill,",
+          "to": "Kill ->"
+        },
+        {
+          "regex": true,
+          "from": "deal (\\S+) more Damage",
+          "to": "Damage \\1"
+        },
+        {
+          "regex": true,
+          "from": "deal (\\S+) Damage",
+          "to": "Damage \\1"
+        },
+        {
+          "regex": true,
+          "from": "The final Coin deals (\\S+) Damage",
+          "to": "Final Coin: Damage \\1"
+        },
+        {
+          "from": "If this unit's Speed is faster than the target's,",
+          "to": "Faster than target ->"
+        },
+        {
+          "from": "If user's Speed is faster than the target's,",
+          "to": "Faster than target ->"
+        },
+        {
+          "regex": true,
+          "from": "If this unit's Speed is faster than the target's by (\\S+) or more,",
+          "to": "Faster than target by \\1+ ->"
+        },
+        {
+          "regex": true,
+          "from": "([^,\n]+) at (\\d+)\\+ Speed",
+          "to": "Speed >= \\2 -> \\1"
+        },
+        {
+          "regex": true,
+          "from": "At (\\d+)\\+ Speed,",
+          "to": "Speed >= \\1"
+        },
+        {
+          "regex": true,
+          "from": "At less than (\\d+)%([a-zA-Z]+)",
+          "to": "\\2<\\1% ->"
+        },
+        {
+          "regex": true,
+          "from": "At less than (\\d+)% (\\S+)",
+          "to": "\\2<\\1% ->"
+        },
+        {
+          "regex": true,
+          "from": "Spend ([^,\n]+) to gain",
+          "to": "Spend \\1 ->"
+        },
+        {
+          "regex": true,
+          "from": "Spend ([^,\n]+) to turn this",
+          "to": "Spend \\1 -> turn"
+        },
+        {
+          "regex": true,
+          "from": "Consume ([^,\n]+) on self to gain",
+          "to": "Self: Spend \\1 ->"
+        },
+        {
+          "regex": true,
+          "from": "Consume ([^,\n]+) to gain",
+          "to": "Self: Spend \\1 ->"
+        },
+        {
+          "regex": true,
+          "from": "Spend ([^,\n]+) to",
+          "to": "Self: Spend \\1 ->"
+        },
+        {
+          "regex": true,
+          "from": "consume ([^,\n]+) on target to gain",
+          "to": "Target: Spend \\1 ->"
+        },
+        {
+          "regex": true,
+          "from": "Spend ([^,\n]+) on target to",
+          "to": "Target: Spend \\1 ->"
+        },
+        {
+          "from": "1 ally with most HP",
+          "to": "Most HP ally:"
+        },
+        {
+          "from": "1 ally with the most HP",
+          "to": "Most HP ally:"
+        },
+        {
+          "from": "1 ally with most SP",
+          "to": "Most SP ally:"
+        },
+        {
+          "from": "1 ally the least SP",
+          "to": "Least SP ally:"
+        },
+        {
+          "from": "1 ally with lowest Max HP",
+          "to": "Least Max HP ally:"
+        },
+        {
+          "from": "1 ally with lowest Max HP",
+          "to": "Least HP ally:"
+        },
+        {
+          "from": "allies with the lowest HP",
+          "to": "least HP allies:"
+        },
+        {
+          "from": "1 ally with highest Max HP",
+          "to": "Most Max HP ally:"
+        },
+        {
+          "from": "If this Skill is Discarded,",
+          "to": "[Discard]:"
+        },
+        {
+          "regex": true,
+          "from": "Heal (\\d+) (SP|HP)",
+          "to": "+\\1 \\2"
+        },
+        {
+          "from": "Max # of allies that can be healed:",
+          "to": "Max of healed allies:"
+        },
+        {
+          "from": "allies adjacent to this unit on the Dashboard",
+          "to": "Dashboard-adjacent allies"
+        },
+        {
+          "from": "If target is Staggered of defeated,",
+          "to": "[EnemyKill] or Stagger ->"
+        },
+        {
+          "regex": true,
+          "from": "([^,\n]+) chance to Reuse Coin once",
+          "to": "Reuse Coin chance: \\1"
+        },
+        {
+          "regex": true,
+          "from": "([^,\n]+) chance to Reuse Coin",
+          "to": "Reuse Coin chance: \\1"
+        },
+        {
+          "regex": true,
+          "from": "\\+(\\d+) more chance to Reuse Coin",
+          "to": "Reuse Coin chance: \\1"
+        },
+        {
+          "regex": true,
+          "from": "(\\d+) or more",
+          "to": "\\1+"
+        },
+        {
+          "from": "If this Skill attack kills the target,",
+          "to": "[EnemyKill]"
+        },
+        {
+          "from": "When an ally is defeated,",
+          "to": "Ally death ->"
+        },
+        {
+          "from": "after an ally is defeated",
+          "to": "after ally death"
+        },
+        {
+          "from": "When in a Volatile E.G.O state,",
+          "to": "[Volatile E.G.O]:"
+        }
+      ]
+    }]
+}
+
