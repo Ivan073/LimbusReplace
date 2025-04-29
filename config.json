@@ -1,13 +1,12 @@
 {
   "moveFiles": {
     "enabled": true,
-    "replaceConfig": true,
     "sourceTranslation": "en",
     "translationName": "en(short)"
   },
-  "replaceFilesEnabled": true,
+  "replaceFilesEnabled": false,
   "statuses": {
-    "enabled": true,
+    "enabled": false,
     "replaceIcon": "▲",
     "fields": {
       "required": ["id", "name"],

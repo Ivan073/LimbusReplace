@@ -16,14 +16,9 @@ def select_source_folder(config):
     target_folder = data_folder + "/Lang/"+config["moveFiles"]["translationName"]
 
 
-def create_config(path, config):
-    path = os.path.join(path, 'config.json')
-    if not os.path.exists(path) or config["moveFiles"]["replaceConfig"]:
-        config_data = {
-            "lang": config["moveFiles"]["translationName"]
-        }
-        with open(path, 'w') as f:
-            json.dump(config_data, f, indent=4)
+def add_font_folder():
+    os.makedirs(target_folder + '/Font/Context', exist_ok=True)
+    os.makedirs(target_folder + '/Font/Title', exist_ok=True)
 
 
 def copy_files(config):
@@ -51,10 +46,11 @@ def copy_files(config):
             except Exception as e:
                 print(f"Copy error in {file}: {e}")
 
-    create_config(config_path, config)
     print(f"Copy finished!")
 
 
 def move_translation_files(config):
     select_source_folder(config)
     copy_files(config)
+    # Empty font folders are necessary for translation to load for some reason
+    add_font_folder()
