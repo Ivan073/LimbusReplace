@@ -4,9 +4,9 @@
     "sourceTranslation": "en",
     "translationName": "en(short)"
   },
-  "replaceFilesEnabled": false,
+  "replaceFilesEnabled": true,
   "statuses": {
-    "enabled": false,
+    "enabled": true,
     "replaceIcon": "▲",
     "fields": {
       "required": ["id", "name"],
