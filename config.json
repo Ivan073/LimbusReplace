@@ -381,6 +381,14 @@
         {
           "from": "When in a Volatile E.G.O state,",
           "to": "[Volatile E.G.O]:"
+        },
+        {
+          "from": "'Unique [Vibration]' as [Vibration]",
+          "to": "Has 'Unique [Vibration]'"
+        },
+        {
+          "from": "sum of ([^,\n]+) and ([^,\n]+)",
+          "to": "+\\1, \\2 sum"
         }
       ]
     }]
