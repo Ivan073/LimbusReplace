@@ -38,9 +38,9 @@
           "to": "'"
         },
         {
+          "regex": true,
           "from": "\\(Max",
-          "to": "(max",
-          "regex": true
+          "to": "(max"
         },
         {
           "from": "damage",
@@ -203,10 +203,12 @@
           "to": "Self: Lower Stagger by \\1 of Damage"
         },
         {
+          "regex": true,
           "from": "If this Skill attack kills the target[,:]",
           "to": "Kill →"
         },
         {
+          "regex": true,
           "from": "On kill[,:]",
           "to": "Kill →"
         },
@@ -226,16 +228,18 @@
           "to": "Final Coin: Damage \\1"
         },
         {
-          "from": "If this unit's Speed is faster than the target's[,:]",
-          "to": "Faster than target →"
-        },
-        {
-          "from": "If user's Speed is faster than the target's[,:]",
+          "regex": true,
+          "from": "[Ii]f this unit's Speed is faster than the target's[,:]",
           "to": "Faster than target →"
         },
         {
           "regex": true,
-          "from": "If this unit's Speed is faster than the target's by (\\S+) or more[,:]",
+          "from": "[Ii]f user's Speed is faster than the target's[,:]",
+          "to": "Faster than target →"
+        },
+        {
+          "regex": true,
+          "from": "[Ii]f this unit's Speed is faster than the target's by (\\S+) or more[,:]",
           "to": "Faster than target by \\1+ →"
         },
         {
@@ -331,6 +335,7 @@
           "to": "Most Max HP ally:"
         },
         {
+          "regex": true,
           "from": "If this Skill is Discarded[,:]",
           "to": "[Discard]:"
         },
@@ -348,6 +353,7 @@
           "to": "Dashboard-adjacent allies"
         },
         {
+          "regex": true,
           "from": "If target is Staggered of defeated[,:]",
           "to": "[EnemyKill] or Stagger →"
         },
@@ -372,10 +378,12 @@
           "to": "\\1+"
         },
         {
+          "regex": true,
           "from": "If this Skill attack kills the target[,:]",
           "to": "[EnemyKill]"
         },
         {
+          "regex": true,
           "from": "When an ally is defeated[,:]",
           "to": "Ally death →"
         },
@@ -384,6 +392,7 @@
           "to": "after ally death"
         },
         {
+          "regex": true,
           "from": "When in a Volatile E.G.O state[,:]",
           "to": "[Volatile E.G.O]:"
         },
