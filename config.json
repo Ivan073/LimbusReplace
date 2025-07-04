@@ -76,32 +76,32 @@
         },
         {
           "regex": true,
-          "from": "If target has ([^,\n]+),",
+          "from": "If target has ([^,\n:]+)[,:]",
           "to": "Target: \\1 →"
         },
         {
           "regex": true,
-          "from": "if target has ([^,\n]+),",
+          "from": "if target has ([^,\n:]+)[,:]",
           "to": "Target: \\1 →"
         },
         {
           "regex": true,
-          "from": "If target's (\\S+) below (\\S+),",
+          "from": "If target's (\\S+) below (\\S+)[,:]",
           "to": "Target: \\1 < \\2 →"
         },
         {
           "regex": true,
-          "from": "If target's (\\S+) is below (\\S+),",
+          "from": "If target's (\\S+) is below (\\S+)[,:]",
           "to": "Target: \\1 < \\2 →"
         },
         {
           "regex": true,
-          "from": "If target's (\\S+) is above (\\S+),",
+          "from": "If target's (\\S+) is above (\\S+)[,:]",
           "to": "Target: \\1 > \\2 →"
         },
         {
           "regex": true,
-          "from": "([^,\n]+) for every type of negative effect on target",
+          "from": "([^,\n:]+) for every type of negative effect on target",
           "to": "Target: per negative effect type → \\1"
         },
         {
@@ -115,32 +115,32 @@
         },
         {
           "regex": true,
-          "from": "([^,\n]+) per ([^,\n]+) on target",
+          "from": "([^,\n:]+) per ([^,\n:]+) on target",
           "to": "Target: per \\2 → \\1"
         },
         {
           "regex": true,
-          "from": "([^,\n]+) for every ([^,\n]+) on target",
+          "from": "([^,\n:]+) for every ([^,\n:]+) on target",
           "to": "Target: per \\2 → \\1"
         },
         {
           "regex": true,
-          "from": "([^,\n]+) for every ([^,\n]+) on self",
+          "from": "([^,\n:]+) for every ([^,\n:]+) on self",
           "to": "Self: per \\2 → \\1"
         },
         {
           "regex": true,
-          "from": "([^,\n]+) for (?:<style=\"highlight\">)?every(?:</style>)? ([^,\n]+) on self",
+          "from": "([^,\n:]+) for (?:<style=\"highlight\">)?every(?:</style>)? ([^,\n:]+) on self",
           "to": "Self: per \\2 → \\1"
         },
         {
           "regex": true,
-          "from": "For every ([^,\n]+) on self,",
+          "from": "For every ([^,\n:]+) on self[,:]",
           "to": "Self: per \\1 →"
         },
         {
           "regex": true,
-          "from": "([^,\n]+) for every ([^,\n]+) \\(max (\\d+)\\)",
+          "from": "([^,\n:]+) for every ([^,\n:]+) \\(max (\\d+)\\)",
           "to": "Self: per \\2 → \\1 (max \\3)"
         },
         {
@@ -149,52 +149,52 @@
         },
         {
           "regex": true,
-          "from": "At (\\d+)\\+ SP,",
+          "from": "At (\\d+)\\+ SP[,:]",
           "to": "Self: SP >= \\1 →"
         },
         {
           "regex": true,
-          "from": "At (\\d+) or less SP,",
+          "from": "At (\\d+) or less SP[,:]",
           "to": "Self: SP <= \\1 →"
         },
         {
           "regex": true,
-          "from": "When below -(\\d+) SP,",
+          "from": "When below -(\\d+) SP[,:]",
           "to": "Self: SP < -\\1 →"
         },
         {
           "regex": true,
-          "from": "([^,\n]+) when below (\\d+) SP",
+          "from": "([^,\n:]+) when below (\\d+) SP",
           "to": "Self: SP < \\2 → \\1"
         },
         {
           "regex": true,
-          "from": "If this unit has ([^,\n]+),",
+          "from": "If this unit has ([^,\n:]+)[,:]",
           "to": "Self: \\1 →"
         },
         {
           "regex": true,
-          "from": "If this unit does not have ([^,\n]+),",
+          "from": "If this unit does not have ([^,\n:]+)[,:]",
           "to": "Self: no \\1 →"
         },
         {
           "regex": true,
-          "from": "If user has ([^,\n]+),",
+          "from": "If user has ([^,\n:]+)[,:]",
           "to": "Self: \\1 →"
         },
         {
           "regex": true,
-          "from": "At (\\d+)\\+ ([^,\n]+),",
+          "from": "At (\\d+)\\+ ([^,\n:]+)[,:]",
           "to": "Self: \\1 \\2 →"
         },
         {
           "regex": true,
-          "from": "At less than (\\d+) ([^,\n]+),",
+          "from": "At less than (\\d+) ([^,\n:]+)[,:]",
           "to": "Self: \\2 < \\1 →"
         },
         {
           "regex": true,
-          "from": "When at less than (\\d+) ([^,\n]+),",
+          "from": "When at less than (\\d+) ([^,\n:]+)[,:]",
           "to": "Self: \\2 < \\1 →"
         },
         {
@@ -203,11 +203,11 @@
           "to": "Self: Lower Stagger by \\1 of Damage"
         },
         {
-          "from": "If this Skill attack kills the target,",
+          "from": "If this Skill attack kills the target[,:]",
           "to": "Kill →"
         },
         {
-          "from": "On kill,",
+          "from": "On kill[,:]",
           "to": "Kill →"
         },
         {
@@ -226,71 +226,76 @@
           "to": "Final Coin: Damage \\1"
         },
         {
-          "from": "If this unit's Speed is faster than the target's,",
+          "from": "If this unit's Speed is faster than the target's[,:]",
           "to": "Faster than target →"
         },
         {
-          "from": "If user's Speed is faster than the target's,",
+          "from": "If user's Speed is faster than the target's[,:]",
           "to": "Faster than target →"
         },
         {
           "regex": true,
-          "from": "If this unit's Speed is faster than the target's by (\\S+) or more,",
+          "from": "If this unit's Speed is faster than the target's by (\\S+) or more[,:]",
           "to": "Faster than target by \\1+ →"
         },
         {
           "regex": true,
-          "from": "([^,\n]+) at (\\d+)\\+ Speed",
+          "from": "([^,\n:]+) at (\\d+)\\+ Speed",
           "to": "Speed >= \\2 → \\1"
         },
         {
           "regex": true,
-          "from": "At (\\d+)\\+ Speed,",
+          "from": "At (\\d+)\\+ Speed[,:]",
           "to": "Speed >= \\1"
         },
         {
           "regex": true,
           "from": "At less than (\\d+)%([a-zA-Z]+)",
-          "to": "\\2<\\1% →"
+          "to": "\\2 < \\1% →"
         },
         {
           "regex": true,
           "from": "At less than (\\d+)% (\\S+)",
-          "to": "\\2<\\1% →"
+          "to": "\\2 < \\1% →"
         },
         {
           "regex": true,
-          "from": "Spend ([^,\n]+) to gain",
+          "from": "less than (\\S+)",
+          "to": "< \\1"
+        },
+        {
+          "regex": true,
+          "from": "Spend ([^,\n:]+) to gain",
           "to": "Spend \\1 →"
         },
         {
           "regex": true,
-          "from": "Spend ([^,\n]+) to turn this",
+          "from": "Spend ([^,\n:]+) to turn this",
           "to": "Spend \\1 → turn"
         },
         {
           "regex": true,
-          "from": "Consume ([^,\n]+) on self to gain",
+          "from": "Consume ([^,\n:]+) on self to gain",
           "to": "Self: Spend \\1 →"
         },
         {
           "regex": true,
-          "from": "Consume ([^,\n]+) to gain",
+          "from": "Consume ([^,\n:]+) to gain",
           "to": "Self: Spend \\1 →"
         },
         {
           "regex": true,
-          "from": "Spend ([^,\n]+) to",
+          "from": "Spend ([^,\n:]+) to",
           "to": "Self: Spend \\1 →"
         },
         {
           "regex": true,
-          "from": "consume ([^,\n]+) on target to gain",
+          "from": "consume ([^,\n:]+) on target to gain",
           "to": "Target: Spend \\1 →"
         },
         {
           "regex": true,
-          "from": "Spend ([^,\n]+) on target to",
+          "from": "Spend ([^,\n:]+) on target to",
           "to": "Target: Spend \\1 →"
         },
         {
@@ -326,7 +331,7 @@
           "to": "Most Max HP ally:"
         },
         {
-          "from": "If this Skill is Discarded,",
+          "from": "If this Skill is Discarded[,:]",
           "to": "[Discard]:"
         },
         {
@@ -343,17 +348,17 @@
           "to": "Dashboard-adjacent allies"
         },
         {
-          "from": "If target is Staggered of defeated,",
+          "from": "If target is Staggered of defeated[,:]",
           "to": "[EnemyKill] or Stagger →"
         },
         {
           "regex": true,
-          "from": "([^,\n]+) chance to Reuse Coin once",
+          "from": "([^,\n:]+) chance to Reuse Coin once",
           "to": "Reuse Coin chance: \\1"
         },
         {
           "regex": true,
-          "from": "([^,\n]+) chance to Reuse Coin",
+          "from": "([^,\n:]+) chance to Reuse Coin",
           "to": "Reuse Coin chance: \\1"
         },
         {
@@ -367,11 +372,11 @@
           "to": "\\1+"
         },
         {
-          "from": "If this Skill attack kills the target,",
+          "from": "If this Skill attack kills the target[,:]",
           "to": "[EnemyKill]"
         },
         {
-          "from": "When an ally is defeated,",
+          "from": "When an ally is defeated[,:]",
           "to": "Ally death →"
         },
         {
@@ -379,7 +384,7 @@
           "to": "after ally death"
         },
         {
-          "from": "When in a Volatile E.G.O state,",
+          "from": "When in a Volatile E.G.O state[,:]",
           "to": "[Volatile E.G.O]:"
         },
         {
