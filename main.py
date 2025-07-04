@@ -18,12 +18,11 @@ def load_config():
 @profile
 def process_files(directory, config):
     """Main file processing"""
+    processed_files = []
     if config['statuses']['enabled']:
         print('Status collection...')
         processed_files = process_statuses(directory, config)
         print("Statuses collected")
-    else:
-        processed_files = []
 
     process_replaces(directory, config, processed_files)
 
@@ -37,10 +36,7 @@ def main():
         return
     Tk().withdraw()
     from move_files import target_folder
-    if target_folder == "":
-        target_dir = askdirectory()
-    else:
-        target_dir = target_folder
+    target_dir = target_folder if target_folder else askdirectory()
 
     if target_dir:
         start_time = time.time()

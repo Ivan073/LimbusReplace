@@ -32,25 +32,33 @@ def replace_in_string(data, config, skillTagPersistency):
     global compiled_patterns
     sentences = split_sentences(data)
     processed_sentences = []
+
     for sentence in sentences:
+        skill_tag_match = re.match(r'^\[(.*?)\]', sentence) if skillTagPersistency else None
+
         for change in config['changes']:
-            if change.get('regex') and change['regex']:
-                pattern = compiled_patterns.get(change['from'])
+            use_regex = change.get('regex', False)
+            from_pattern = change.get('from')
+            to_replacement = change.get('to', '')
+
+            if use_regex and from_pattern:
+                pattern = compiled_patterns.get(from_pattern)
                 if pattern:
                     try:
-                        skillTagMatch = re.match(r'^\[(.*?)\]', sentence)
-                        if skillTagPersistency and skillTagMatch:
-                            first_word = skillTagMatch.group(0)
-                            rest_of_sentence = sentence[skillTagMatch.end():].lstrip()
-                            rest_of_sentence = pattern.sub(change['to'], rest_of_sentence)
-                            sentence = first_word + ' ' + rest_of_sentence
+                        if skill_tag_match:
+                            first_word = skill_tag_match.group(0)
+                            rest_of_sentence = sentence[skill_tag_match.end():].lstrip()
+                            rest_of_sentence = pattern.sub(to_replacement, rest_of_sentence)
+                            sentence = f"{first_word} {rest_of_sentence}"
                         else:
-                            sentence = pattern.sub(change['to'], sentence)
+                            sentence = pattern.sub(to_replacement, sentence)
                     except Exception as e:
                         print(
-                            f"Failed to apply <{change['from']}> to <{sentence}>: {str(e)}\npattern:{pattern}\nto: {change['to']}\n")
+                            f"Failed to apply <{from_pattern}> to <{sentence}>: {str(e)}\npattern:{pattern}\nto: {to_replacement}\n")
             else:
-                sentence = sentence.replace(change['from'], change['to'])
+                if from_pattern:
+                    sentence = sentence.replace(from_pattern, to_replacement)
+
         processed_sentences.append(sentence)
 
     processed_data = "".join(processed_sentences)
@@ -62,9 +70,9 @@ def recursive_replace(data, config_list, skillTagPersistency):
     """Recursive replace in JSON fields"""
     if isinstance(data, dict):
         for key in list(data.keys()):
-            if key in [field for config in config_list for field in config['fields']]:
-                if isinstance(data[key], str):
-                    for config in config_list:
+            for config in config_list:
+                if key in [field for field in config['fields']]:
+                    if isinstance(data[key], str):
                         if key in config['fields']:
                             data[key] = replace_in_string(data[key], config, skillTagPersistency)
             else:
