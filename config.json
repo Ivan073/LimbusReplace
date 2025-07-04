@@ -385,11 +385,6 @@
         {
           "from": "'Unique [Vibration]' as [Vibration]",
           "to": "Has 'Unique [Vibration]'"
-        },
-        {
-          "from": "sum of ([^,\n]+) and ([^,\n]+)",
-          "to": "+\\1, \\2 sum",
-          "regex": true
         }
       ]
     }]
