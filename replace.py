@@ -38,7 +38,7 @@ def replace_in_string(data, config, skillTagPersistency):
 
         for change in config.get('changes', []):
             from_pattern = change.get('from')
-            to_replacement = change.get('to', '')
+            to_pattern = change.get('to', '')
             use_regex = change.get('regex', False)
 
             if use_regex:
@@ -47,18 +47,18 @@ def replace_in_string(data, config, skillTagPersistency):
                     if skill_tag_match:
                         first_word = skill_tag_match.group(0)
                         rest_of_sentence = sentence[skill_tag_match.end():].lstrip()
-                        rest_of_sentence = pattern.sub(to_replacement, rest_of_sentence)
+                        rest_of_sentence = pattern.sub(to_pattern, rest_of_sentence)
                         sentence = f"{first_word} {rest_of_sentence}"
                     else:
-                        sentence = pattern.sub(to_replacement, sentence)
+                        sentence = pattern.sub(to_pattern, sentence)
                 except Exception as e:
                     print(
                         f"Failed to apply <{from_pattern}> to <{sentence}>: {e}\n"
                         f"pattern: {pattern}\n"
-                        f"to: {to_replacement}\n"
+                        f"to: {to_pattern}\n"
                     )
             else:
-                sentence = sentence.replace(from_pattern, to_replacement)
+                sentence = sentence.replace(from_pattern, to_pattern)
 
         processed_sentences.append(sentence)
 
