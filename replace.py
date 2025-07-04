@@ -36,33 +36,33 @@ def replace_in_string(data, config, skillTagPersistency):
     for sentence in sentences:
         skill_tag_match = re.match(r'^\[(.*?)]', sentence) if skillTagPersistency else None
 
-        for change in config['changes']:
-            use_regex = change.get('regex', False)
+        for change in config.get('changes', []):
             from_pattern = change.get('from')
             to_replacement = change.get('to', '')
+            use_regex = change.get('regex', False)
 
-            if use_regex and from_pattern:
+            if use_regex:
                 pattern = compiled_patterns.get(from_pattern)
-                if pattern:
-                    try:
-                        if skill_tag_match:
-                            first_word = skill_tag_match.group(0)
-                            rest_of_sentence = sentence[skill_tag_match.end():].lstrip()
-                            rest_of_sentence = pattern.sub(to_replacement, rest_of_sentence)
-                            sentence = f"{first_word} {rest_of_sentence}"
-                        else:
-                            sentence = pattern.sub(to_replacement, sentence)
-                    except Exception as e:
-                        print(
-                            f"Failed to apply <{from_pattern}> to <{sentence}>: {str(e)}\npattern:{pattern}\nto: {to_replacement}\n")
+                try:
+                    if skill_tag_match:
+                        first_word = skill_tag_match.group(0)
+                        rest_of_sentence = sentence[skill_tag_match.end():].lstrip()
+                        rest_of_sentence = pattern.sub(to_replacement, rest_of_sentence)
+                        sentence = f"{first_word} {rest_of_sentence}"
+                    else:
+                        sentence = pattern.sub(to_replacement, sentence)
+                except Exception as e:
+                    print(
+                        f"Failed to apply <{from_pattern}> to <{sentence}>: {e}\n"
+                        f"pattern: {pattern}\n"
+                        f"to: {to_replacement}\n"
+                    )
             else:
-                if from_pattern:
-                    sentence = sentence.replace(from_pattern, to_replacement)
+                sentence = sentence.replace(from_pattern, to_replacement)
 
         processed_sentences.append(sentence)
 
-    processed_data = "".join(processed_sentences)
-    return processed_data
+    return "".join(processed_sentences)
 
 
 @profile
