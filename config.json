@@ -2,11 +2,12 @@
   "moveFiles": {
     "enabled": true,
     "sourceTranslation": "en",
-    "translationName": "en(short)"
+    "translationName": "en(short)",
+    "moveFont": true
   },
   "replaceFilesEnabled": true,
   "statuses": {
-    "enabled": true,
+    "enabled": false,
     "replaceIcon": "▲",
     "fields": {
       "required": ["id", "name"],

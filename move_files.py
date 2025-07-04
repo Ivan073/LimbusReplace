@@ -21,6 +21,14 @@ def add_font_folder():
     os.makedirs(target_folder + '/Font/Title', exist_ok=True)
 
 
+def move_fonts():
+    path = target_folder + '/Font/'
+    if os.path.exists(path):
+        shutil.rmtree(path)
+    src = os.path.join(os.path.dirname(os.path.abspath(__file__)), 'Font')
+    shutil.copytree(src, path)
+
+
 def copy_files(config):
     """Recursive file copy from source to target"""
     global source_folder, target_folder, config_path
@@ -54,3 +62,6 @@ def move_translation_files(config):
     copy_files(config)
     # Empty font folders are necessary for translation to load for some reason
     add_font_folder()
+    # Right now lack of fonts means that translation won't be applied
+    if config["moveFiles"]["moveFont"]:
+        move_fonts()
