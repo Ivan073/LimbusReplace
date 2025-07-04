@@ -30,7 +30,6 @@ def split_sentences(data):
 def replace_in_string(data, config, skillTagPersistency):
     """Replacement via regex in acquired strings"""
     global compiled_patterns
-    # Разбиваем текст на предложения
     sentences = split_sentences(data)
     processed_sentences = []
     for sentence in sentences:
@@ -46,7 +45,6 @@ def replace_in_string(data, config, skillTagPersistency):
                             rest_of_sentence = pattern.sub(change['to'], rest_of_sentence)
                             sentence = first_word + ' ' + rest_of_sentence
                         else:
-                            # Если нет, то просто проводим замену во всём предложении
                             sentence = pattern.sub(change['to'], sentence)
                     except Exception as e:
                         print(
