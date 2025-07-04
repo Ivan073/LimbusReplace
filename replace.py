@@ -89,7 +89,7 @@ def process_replaces(directory, config, status_processed_files):
     ordered_status_names = sorted(name_id_map.items(), key=lambda x: len(x[0]), reverse=True)
     status_replace = {
         'fields': ['desc'],
-        'changes': [{'from': f"\\b{re.escape(k)}\\b", 'to': v, 'regex': True} for k, v in ordered_status_names],
+        'changes': [{'from': rf"(?<!\[)\b{re.escape(k)}\b(?!\])", 'to': v, 'regex': True} for k, v in ordered_status_names],
         'ignoredFiles': status_processed_files
     }
     replace_config.append(status_replace)
