@@ -1,9 +1,9 @@
 import json
 import os
 import re
-from line_profiler import profile
 from concurrent.futures import ThreadPoolExecutor
 
+from line_profiler import profile
 
 compiled_patterns = {}
 
@@ -34,7 +34,7 @@ def replace_in_string(data, config, skillTagPersistency):
     processed_sentences = []
 
     for sentence in sentences:
-        skill_tag_match = re.match(r'^\[(.*?)\]', sentence) if skillTagPersistency else None
+        skill_tag_match = re.match(r'^\[(.*?)]', sentence) if skillTagPersistency else None
 
         for change in config['changes']:
             use_regex = change.get('regex', False)
@@ -71,12 +71,9 @@ def recursive_replace(data, config_list, skillTagPersistency):
     if isinstance(data, dict):
         for key in list(data.keys()):
             for config in config_list:
-                if key in [field for field in config['fields']]:
-                    if isinstance(data[key], str):
-                        if key in config['fields']:
-                            data[key] = replace_in_string(data[key], config, skillTagPersistency)
-            else:
-                data[key] = recursive_replace(data[key], config_list, skillTagPersistency)
+                if key in config['fields'] and isinstance(data[key], str):
+                    data[key] = replace_in_string(data[key], config, skillTagPersistency)
+            data[key] = recursive_replace(data[key], config_list, skillTagPersistency)
     elif isinstance(data, list):
         with ThreadPoolExecutor() as executor:
             data = list(executor.map(lambda item: recursive_replace(item, config_list, skillTagPersistency), data))
