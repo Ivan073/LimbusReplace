@@ -1,12 +1,25 @@
-Select LimbusCompany_Data folder to begin
+Select LimbusCompany_Data folder to begin replacement
 
-Possible improvements:
+## Base funtionality:
+
+	Move base game translation to new custom translation folder
+
+ 	Replace common strings with others for translation/wording purposes
+
+  	Replace or remove status text to make descriptions significantly shorter 
+
+
+
+## Possible improvements:
+
 	Better capitalization logic after all replacements (Word order change may result in wrong capitalization)
+ 
 	Better logic for sentence full-stops (accounting for lower-case symbols)
+ 
 	More abstract algorithm for <style> ignoring (now needs separate replace expression)
 
 
-Configuration:
+## Configuration:
 
 moveFiles
 
