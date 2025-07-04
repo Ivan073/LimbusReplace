@@ -159,7 +159,7 @@
         },
         {
           "regex": true,
-          "from": "When below -(\\d+)SP,",
+          "from": "When below -(\\d+) SP,",
           "to": "Self: SP < -\\1 →"
         },
         {
