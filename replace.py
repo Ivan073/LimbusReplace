@@ -86,6 +86,15 @@ def add_status_regex(replace_config, status_processed_files):
     from statuses import name_id_map
     # Replace status names to ids for collected statuses
     ordered_status_names = sorted(name_id_map.items(), key=lambda x: len(x[0]), reverse=True)
+    status_sprite_remove = {
+        'fields': ['desc'],
+        'changes': [{
+            'from': rf"<sprite [^>]+><color[^>]+><u><link[^>]+>([^>]+)</color></link></u>",
+            'to': rf"\1",
+            'regex': True
+        }],
+        'ignoredFiles': status_processed_files
+    }
     status_name_replace = {
         'fields': ['desc'],
         'changes': [{
@@ -104,6 +113,7 @@ def add_status_regex(replace_config, status_processed_files):
         } for name, id_ in ordered_status_names],
         'ignoredFiles': status_processed_files
     }
+    replace_config.append(status_sprite_remove)
     replace_config.append(status_name_replace)
     replace_config.append(status_id_replace)
 

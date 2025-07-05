@@ -66,7 +66,6 @@ def preprocess_statuses(data):
             if isinstance(item, dict):
                 name = item.get("name")
                 id_ = item.get("id")
-
                 if id_ and name:
                     name_id_map[name] = id_
     return data
