@@ -1,13 +1,15 @@
-import json
-from tkinter import filedialog
 import os
 import shutil
+from tkinter import filedialog
+
+from line_profiler_pycharm import profile
 
 source_folder = ""
 target_folder = ""
 config_path = ""
 
 
+@profile
 def select_source_folder(config):
     global source_folder, target_folder, config_path
     data_folder = filedialog.askdirectory()
@@ -16,11 +18,13 @@ def select_source_folder(config):
     target_folder = data_folder + "/Lang/"+config["moveFiles"]["translationName"]
 
 
+@profile
 def add_font_folder():
     os.makedirs(target_folder + '/Font/Context', exist_ok=True)
     os.makedirs(target_folder + '/Font/Title', exist_ok=True)
 
 
+@profile
 def move_fonts():
     path = target_folder + '/Font/'
     if os.path.exists(path):
@@ -29,6 +33,7 @@ def move_fonts():
     shutil.copytree(src, path)
 
 
+@profile
 def copy_files(config):
     """Recursive file copy from source to target"""
     global source_folder, target_folder, config_path
@@ -57,6 +62,7 @@ def copy_files(config):
     print(f"Copy finished!")
 
 
+@profile
 def move_translation_files(config):
     select_source_folder(config)
     copy_files(config)
