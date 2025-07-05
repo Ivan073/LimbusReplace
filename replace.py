@@ -84,33 +84,39 @@ def recursive_replace(data, config_list, skillTagPersistency):
 def add_status_regex(replace_config, status_processed_files):
     """Replace status names and ids with linked sprites"""
     from statuses import name_id_map
-    # Replace status names to ids for collected statuses
     ordered_status_names = sorted(name_id_map.items(), key=lambda x: len(x[0]), reverse=True)
+    status_names = [re.escape(name) for name, _ in ordered_status_names]
+    status_ids = [re.escape(id_) for _, id_ in ordered_status_names]
+    pattern_names = r'(?<!\[)\b(' + '|'.join(status_names) + r')\b(?!\])'
+    pattern_ids = r'\[(' + '|'.join(status_ids) + r')\]'
+
+    name_to_id = dict(ordered_status_names)
+
+    def repl_name(match):
+        name = match.group(1)
+        id_ = name_to_id[name]
+        return f'<link="{id_}"><sprite name="{id_}"></link>'
+
+    def repl_id(match):
+        id_ = match.group(1)
+        return f'<link="{id_}"><sprite name="{id_}"></link>'
+
     status_sprite_remove = {
         'fields': ['desc'],
         'changes': [{
             'from': rf"<sprite [^>]+><color[^>]+><u><link[^>]+>([^>]+)</color></link></u>",
-            'to': rf"\1",
-            'regex': True
+            'to': rf"\1", 'regex': True
         }],
         'ignoredFiles': status_processed_files
     }
     status_name_replace = {
         'fields': ['desc'],
-        'changes': [{
-            'from': rf"(?<!\[)\b{re.escape(name)}\b(?!\])",
-            'to': f"<link=\"{re.escape(id_)}\"><sprite name=\"{re.escape(id_)}\"></link>",
-            'regex': True
-        } for name, id_ in ordered_status_names],
+        'changes': [{'from': pattern_names, 'to': repl_name, 'regex': True}],
         'ignoredFiles': status_processed_files
     }
     status_id_replace = {
         'fields': ['desc'],
-        'changes': [{
-            'from': rf"\[{re.escape(id_)}\]",
-            'to': f"<link=\"{re.escape(id_)}\"><sprite name=\"{re.escape(id_)}\"></link>",
-            'regex': True
-        } for name, id_ in ordered_status_names],
+        'changes': [{'from': pattern_ids, 'to': repl_id, 'regex': True}],
         'ignoredFiles': status_processed_files
     }
     replace_config.append(status_sprite_remove)
