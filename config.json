@@ -30,7 +30,7 @@
     },
     {
       "fields": [
-        "desc"
+        "desc", "summary"
       ],
       "changes": [
         {
@@ -185,7 +185,7 @@
         {
           "regex": true,
           "from": "At (\\d+)\\+ ([^,\n:]+)[,:]",
-          "to": "Self: \\1 \\2 →"
+          "to": "Self: \\1+ \\2 →"
         },
         {
           "regex": true,
@@ -399,6 +399,11 @@
         {
           "from": "'Unique [Vibration]' as [Vibration]",
           "to": "Has 'Unique [Vibration]'"
+        },
+        {
+          "regex": true,
+          "from": "sum of ([^,\n:\\)]+) and ([^,\n:\\)]+)",
+          "to": "\\1 + \\2"
         }
       ]
     }]
