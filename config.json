@@ -115,13 +115,13 @@
         },
         {
           "regex": true,
-          "from": "([^,\n:]+) per ([^,\n:]+) on target",
-          "to": "Target: per \\2 → \\1"
+          "from": "([^,\n:]+) per ([^,\n:]+) on target(\\))?",
+          "to": "Target: per \\2\\3 → \\1"
         },
         {
           "regex": true,
-          "from": "([^,\n:]+) for every ([^,\n:]+) on target",
-          "to": "Target: per \\2 → \\1"
+          "from": "([^,\n:]+) for every ([^,\n:]+) on target(\\))?",
+          "to": "Target: per \\2\\3 → \\1"
         },
         {
           "regex": true,
