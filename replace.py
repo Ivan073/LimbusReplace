@@ -81,18 +81,38 @@ def recursive_replace(data, config_list, skillTagPersistency):
 
 
 @profile
+def add_status_regex(replace_config, status_processed_files):
+    """Replace status names and ids with linked sprites"""
+    from statuses import name_id_map
+    # Replace status names to ids for collected statuses
+    ordered_status_names = sorted(name_id_map.items(), key=lambda x: len(x[0]), reverse=True)
+    status_name_replace = {
+        'fields': ['desc'],
+        'changes': [{
+            'from': rf"(?<!\[)\b{re.escape(name)}\b(?!\])",
+            'to': f"<link=\"{re.escape(id_)}\"><sprite name=\"{re.escape(id_)}\"></link>",
+            'regex': True
+        } for name, id_ in ordered_status_names],
+        'ignoredFiles': status_processed_files
+    }
+    status_id_replace = {
+        'fields': ['desc'],
+        'changes': [{
+            'from': rf"\[{re.escape(id_)}\]",
+            'to': f"<link=\"{re.escape(id_)}\"><sprite name=\"{re.escape(id_)}\"></link>",
+            'regex': True
+        } for name, id_ in ordered_status_names],
+        'ignoredFiles': status_processed_files
+    }
+    replace_config.append(status_name_replace)
+    replace_config.append(status_id_replace)
+
+
+@profile
 def process_replaces(directory, config, status_processed_files):
     replace_config = config['replace']
     skillTagPersistency = config['skillTagPersistency']
-    from statuses import name_id_map
-    # Additional replaces for collected statuses
-    ordered_status_names = sorted(name_id_map.items(), key=lambda x: len(x[0]), reverse=True)
-    status_replace = {
-        'fields': ['desc'],
-        'changes': [{'from': rf"(?<!\[)\b{re.escape(k)}\b(?!\])", 'to': v, 'regex': True} for k, v in ordered_status_names],
-        'ignoredFiles': status_processed_files
-    }
-    replace_config.append(status_replace)
+    add_status_regex(replace_config, status_processed_files)
 
     total_files = sum(1 for filename in os.listdir(directory) if filename.endswith('.json'))
     processed_count = 0

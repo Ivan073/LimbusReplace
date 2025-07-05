@@ -8,7 +8,6 @@
   "replaceFilesEnabled": true,
   "statuses": {
     "enabled": true,
-    "replaceIcon": "▲",
     "fields": {
       "required": ["id", "name"],
       "optional": ["summary", "undefined", "desc"]

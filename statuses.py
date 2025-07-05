@@ -1,5 +1,6 @@
 import json
 import os
+
 from line_profiler import profile
 
 name_id_map = {}
@@ -42,7 +43,7 @@ def process_statuses(directory, config):
                 skip_preprocessing = True
 
             if not skip_preprocessing:
-                preprocess_statuses(data, config)
+                preprocess_statuses(data)
                 processed_files.append(filename)
 
             with open(path, 'w', encoding='utf-8') as f:
@@ -55,25 +56,17 @@ def process_statuses(directory, config):
 
 
 @profile
-def preprocess_statuses(data, config):
-    """Recording of statuses, chnage names and descriptions"""
+def preprocess_statuses(data):
+    """Recording of statuses"""
     global name_id_map
-    replace_icon = config['statuses']['replaceIcon']
 
     data_list = data.get("dataList")
     if isinstance(data_list, list):
         for item in data_list:
             if isinstance(item, dict):
                 name = item.get("name")
-                desc = item.get("desc")
                 id_ = item.get("id")
 
-                if isinstance(name, str) and isinstance(desc, str) and desc.strip() and name != replace_icon:
-                    item["desc"] = f"{name}\n{desc}"
-
-                if isinstance(name, str):
-                    item["name"] = replace_icon
-
                 if id_ and name:
-                    name_id_map[name] = f"[{id_}]"
+                    name_id_map[name] = id_
     return data

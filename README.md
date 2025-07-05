@@ -6,7 +6,7 @@ Select LimbusCompany_Data folder to begin replacement
 
  	Replace common strings with others for translation/wording purposes
 
-  	Replace or remove status text to make descriptions significantly shorter 
+  	Remove status names to make descriptions significantly shorter 
 
 
 
@@ -45,10 +45,6 @@ statuses
 
     enabled
         Activates the collection and replacement of status objects within files.
-
-    replaceIcon
-        Sets the string or symbol that will replace statuses.
-        Can be an empty string if no replacement is desired.
 
     fields
 
