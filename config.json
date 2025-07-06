@@ -54,11 +54,8 @@
           "to": "[ParryingResultUp]"
         },
         {
-          "from": "Skill Power",
-          "to": "[ResultEnhancement]"
-        },
-        {
-          "from": "Base Power",
+          "regex": true,
+          "from": "(Skill|Base|Final) Power",
           "to": "[ResultEnhancement]"
         },
         {
@@ -152,12 +149,12 @@
         },
         {
           "regex": true,
-          "from": "When below -(\\d+) SP[,:]",
-          "to": "Self: SP < -\\1 →"
+          "from": "When below (\\S+) SP[,:]",
+          "to": "Self: SP < \\1 →"
         },
         {
           "regex": true,
-          "from": "([^,\n:]+) when below (\\d+) SP",
+          "from": "([^,\n:]+) when below (\\S+) SP",
           "to": "Self: SP < \\2 → \\1"
         },
         {
@@ -207,13 +204,13 @@
         },
         {
           "regex": true,
-          "from": "deal (\\S+)(?: more)? Damage",
-          "to": "Damage \\1"
+          "from": "deal (.)?(\\d+)(.)?(?: more)? Damage",
+          "to": "Damage \\1\\2\\3"
         },
         {
           "regex": true,
-          "from": "The final Coin deals (\\S+) Damage",
-          "to": "Final Coin: Damage \\1"
+          "from": "The final Coin deals (.)?(\\d+)(.)?(?: more)? Damage",
+          "to": "Final Coin: Damage \\1\\2\\3"
         },
         {
           "regex": true,
