@@ -11,7 +11,7 @@ compiled_patterns = {}
 def split_sentences(data):
     """Split string into sentences"""
     # Split by ". "
-    sentences = re.split(r'(?<=\.)\s', data)
+    sentences = re.split(r'(?<=\.) ', data)
     sentences_with_space = [sentence + (' ' if i < len(sentences) - 1 else '') for i, sentence in enumerate(sentences)]
     # Split by \n
     final_result = []
