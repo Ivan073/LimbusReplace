@@ -99,11 +99,6 @@
           "to": "Target: \\1 > \\2 →"
         },
         {
-          "regex": true,
-          "from": "([^,\n:]+) for every type of negative effect on target",
-          "to": "Target: per negative effect type → \\1"
-        },
-        {
           "from": "negative effect",
           "to": "ailment"
         },
@@ -116,6 +111,16 @@
           "regex": true,
           "from": "([^,\n:]+) per ([^,\n:]+) on target(\\))?",
           "to": "Target: per \\2\\3 → \\1"
+        },
+        {
+          "regex": true,
+          "from": "([^,\n:]+) for every type of negative effect on target",
+          "to": "Target: per negative effect type → \\1"
+        },
+        {
+          "regex": true,
+          "from": "([^,\n:]+) for every ([^,\n:]+) or for every ([^,\n:]+) on target",
+          "to": "Self: per \\2 or Target: per \\3 → \\1"
         },
         {
           "regex": true,
@@ -188,13 +193,13 @@
         },
         {
           "regex": true,
-          "from": "At less than (\\d+) ([^,\n:]+)[,:]",
+          "from": "(?:When )?[Aa]t less than (\\S+) ([^,\\n:]+)[,:]",
           "to": "Self: \\2 < \\1 →"
         },
         {
           "regex": true,
-          "from": "When at less than (\\d+) ([^,\n:]+)[,:]",
-          "to": "Self: \\2 < \\1 →"
+          "from": "less than (\\S+)",
+          "to": "< \\1"
         },
         {
           "regex": true,
@@ -204,12 +209,12 @@
         {
           "regex": true,
           "from": "If this Skill attack kills the target[,:]",
-          "to": "Kill →"
+          "to": "[EnemyKill]"
         },
         {
           "regex": true,
           "from": "On kill[,:]",
-          "to": "Kill →"
+          "to": "[EnemyKill]"
         },
         {
           "regex": true,
@@ -251,21 +256,7 @@
           "from": "At (\\d+)\\+ Speed[,:]",
           "to": "Speed >= \\1"
         },
-        {
-          "regex": true,
-          "from": "At less than (\\d+)%([a-zA-Z]+)",
-          "to": "\\2 < \\1% →"
-        },
-        {
-          "regex": true,
-          "from": "At less than (\\d+)% (\\S+)",
-          "to": "\\2 < \\1% →"
-        },
-        {
-          "regex": true,
-          "from": "less than (\\S+)",
-          "to": "< \\1"
-        },
+
         {
           "regex": true,
           "from": "Spend ([^,\n:]+) to gain",
@@ -302,36 +293,14 @@
           "to": "Target: Spend \\1 →"
         },
         {
-          "from": "1 ally with most HP",
-          "to": "Most HP ally:"
+          "regex": true,
+          "from": "1 ally (?:with )?(?:the )?(most|highest|lowest|least) (Max )?(HP|SP)",
+          "to": "\\1 \\2\\3 ally"
         },
         {
-          "from": "1 ally with the most HP",
-          "to": "Most HP ally:"
-        },
-        {
-          "from": "1 ally with most SP",
-          "to": "Most SP ally:"
-        },
-        {
-          "from": "1 ally the least SP",
-          "to": "Least SP ally:"
-        },
-        {
-          "from": "1 ally with lowest Max HP",
-          "to": "Least Max HP ally:"
-        },
-        {
-          "from": "1 ally with lowest Max HP",
-          "to": "Least HP ally:"
-        },
-        {
-          "from": "allies with the lowest HP",
-          "to": "least HP allies:"
-        },
-        {
-          "from": "1 ally with highest Max HP",
-          "to": "Most Max HP ally:"
+          "regex": true,
+          "from": "allies (?:with )?(?:the )?(most|highest|lowest|least) (Max )?(HP|SP)",
+          "to": "\\1 \\2\\3 allies"
         },
         {
           "regex": true,
@@ -396,8 +365,9 @@
           "to": "[Volatile E.G.O]:"
         },
         {
-          "from": "'Unique [Vibration]' as [Vibration]",
-          "to": "Has 'Unique [Vibration]'"
+          "regex": true,
+          "from": "'Unique ([^,\n:]+)' as ([^,\n:]+)",
+          "to": "Has 'Unique \\1'"
         },
         {
           "regex": true,
