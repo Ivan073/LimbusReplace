@@ -12,7 +12,7 @@
       "required": ["id", "name"],
       "optional": ["summary", "undefined", "desc"]
     },
-    "ignoredFiles": ["SkillTag.json", "AttributeText.json"]
+    "ignoredFiles": ["SkillTag.json", "AttributeText.json", "EgoGiftCategory.json"]
   },
   "skillTagPersistency": true,
   "replace":[
