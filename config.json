@@ -17,9 +17,7 @@
   "skillTagPersistency": true,
   "replace":[
     {
-      "fields": [
-        "name"
-      ],
+      "fields": [ "name" ],
       "changes": [
         {
           "from": "On ",
@@ -28,9 +26,7 @@
       ]
     },
     {
-      "fields": [
-        "desc", "summary"
-      ],
+      "fields": [ "desc", "summary" ],
       "changes": [
         {
           "from": "’",
@@ -71,6 +67,15 @@
           "to": "on Crit"
         },
         {
+          "from": "negative effect",
+          "to": "ailment"
+        },
+        {
+          "regex": true,
+          "from": "(type|types) of (ailment|ailments)",
+          "to": "ailment \\1"
+        },
+        {
           "regex": true,
           "from": "If target has ([^,\n:]+)[,:]",
           "to": "Target: \\1 →"
@@ -86,13 +91,9 @@
           "to": "Target: \\1 > \\2 →"
         },
         {
-          "from": "negative effect",
-          "to": "ailment"
-        },
-        {
           "regex": true,
-          "from": "(type|types) of (ailment|ailments)",
-          "to": "ailment \\1"
+          "from": "([^,\n:]+) to targets with ([^,\n:]+)",
+          "to": "Target: \\2 → \\1"
         },
         {
           "regex": true,
@@ -113,6 +114,16 @@
           "regex": true,
           "from": "([^,\n:]+) for every ([^,\n:]+) on target(\\))?",
           "to": "Target: per \\2\\3 → \\1"
+        },
+        {
+          "regex": true,
+          "from": "[Ii]f target is ([^\n\\.]+),\\s*([^\n\\.]+)",
+          "to": "Target: \\1 -> \\2"
+        },
+        {
+          "regex": true,
+          "from": "[Ii]f target isn't (a[^\n\\.]+),\\s*([^\n\\.]+)",
+          "to": "Target: not \\1 -> \\2"
         },
         {
           "regex": true,
@@ -256,7 +267,7 @@
         },
         {
           "regex": true,
-          "from": "(?:1 )?(ally|allies) (?:with )?(?:the )?(most|highest|lowest|least) (Max )?(HP|SP)",
+          "from": "(?:1 )?(ally|allies) (?:with )?(?:the )?(most|highest|lowest|least) (?:current )?(Max )?(HP|SP)",
           "to": "\\2 \\3\\4 \\1"
         },
         {
