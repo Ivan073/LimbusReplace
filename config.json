@@ -80,17 +80,7 @@
         },
         {
           "regex": true,
-          "from": "if target has ([^,\n:]+)[,:]",
-          "to": "Target: \\1 →"
-        },
-        {
-          "regex": true,
-          "from": "If target's (\\S+) below (\\S+)[,:]",
-          "to": "Target: \\1 < \\2 →"
-        },
-        {
-          "regex": true,
-          "from": "If target's (\\S+) is below (\\S+)[,:]",
+          "from": "If target's (\\S+) (?:is )?below (\\S+)[,:]",
           "to": "Target: \\1 < \\2 →"
         },
         {
@@ -103,6 +93,10 @@
           "to": "ailment"
         },
         {
+          "from": "type of ailment",
+          "to": "ailment type"
+        },
+        {
           "regex": true,
           "from": "Raise Stagger Threshold by (\\S+) of Damage dealt",
           "to": "Target: Raise Stagger by \\1 of Damage"
@@ -111,11 +105,6 @@
           "regex": true,
           "from": "([^,\n:]+) per ([^,\n:]+) on target(\\))?",
           "to": "Target: per \\2\\3 → \\1"
-        },
-        {
-          "regex": true,
-          "from": "([^,\n:]+) for every type of negative effect on target",
-          "to": "Target: per negative effect type → \\1"
         },
         {
           "regex": true,
@@ -218,12 +207,7 @@
         },
         {
           "regex": true,
-          "from": "deal (\\S+) more Damage",
-          "to": "Damage \\1"
-        },
-        {
-          "regex": true,
-          "from": "deal (\\S+) Damage",
+          "from": "deal (\\S+)(?: more)? Damage",
           "to": "Damage \\1"
         },
         {
@@ -233,12 +217,7 @@
         },
         {
           "regex": true,
-          "from": "[Ii]f this unit's Speed is faster than the target's[,:]",
-          "to": "Faster than target →"
-        },
-        {
-          "regex": true,
-          "from": "[Ii]f user's Speed is faster than the target's[,:]",
+          "from": "[Ii]f (?:this unit's|user's) Speed is faster than the target's[,:]",
           "to": "Faster than target →"
         },
         {
@@ -269,38 +248,18 @@
         },
         {
           "regex": true,
-          "from": "Consume ([^,\n:]+) on self to gain",
+          "from": "(?:Consume|Spend) ([^,\\n:]+)(?: on self)? to(?: gain)?",
           "to": "Self: Spend \\1 →"
         },
         {
           "regex": true,
-          "from": "Consume ([^,\n:]+) to gain",
-          "to": "Self: Spend \\1 →"
-        },
-        {
-          "regex": true,
-          "from": "Spend ([^,\n:]+) to",
-          "to": "Self: Spend \\1 →"
-        },
-        {
-          "regex": true,
-          "from": "consume ([^,\n:]+) on target to gain",
+          "from": "(?:consume|Spend) ([^,\\n:]+) on target to(?: gain)?",
           "to": "Target: Spend \\1 →"
         },
         {
           "regex": true,
-          "from": "Spend ([^,\n:]+) on target to",
-          "to": "Target: Spend \\1 →"
-        },
-        {
-          "regex": true,
-          "from": "1 ally (?:with )?(?:the )?(most|highest|lowest|least) (Max )?(HP|SP)",
-          "to": "\\1 \\2\\3 ally"
-        },
-        {
-          "regex": true,
-          "from": "allies (?:with )?(?:the )?(most|highest|lowest|least) (Max )?(HP|SP)",
-          "to": "\\1 \\2\\3 allies"
+          "from": "(?:1 )?(ally|allies) (?:with )?(?:the )?(most|highest|lowest|least) (Max )?(HP|SP)",
+          "to": "\\2 \\3\\4 \\1"
         },
         {
           "regex": true,
@@ -327,12 +286,7 @@
         },
         {
           "regex": true,
-          "from": "([^,\n:]+) chance to Reuse Coin once",
-          "to": "Reuse Coin chance: \\1"
-        },
-        {
-          "regex": true,
-          "from": "([^,\n:]+) chance to Reuse Coin",
+          "from": "([^,\n:]+) chance to Reuse Coin(?: once)?",
           "to": "Reuse Coin chance: \\1"
         },
         {
