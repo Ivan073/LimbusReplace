@@ -90,8 +90,9 @@
           "to": "ailment"
         },
         {
-          "from": "type of ailment",
-          "to": "ailment type"
+          "regex": true,
+          "from": "(type|types) of (ailment|ailments)",
+          "to": "ailment \\1"
         },
         {
           "regex": true,
