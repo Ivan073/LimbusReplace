@@ -3,14 +3,14 @@ import os
 
 from line_profiler import profile
 
-name_id_map = {}
+id_name_map = {}
 
 
 @profile
 def process_statuses(directory, config):
     """Find files that supposed to contain statuses according to config"""
-    global name_id_map
-    name_id_map = {}
+    global id_name_map
+    id_name_map = {}
     ignored_files = config['statuses']['ignoredFiles']
     processed_files = []
     required_fields = config['statuses']['fields']['required']
@@ -58,7 +58,7 @@ def process_statuses(directory, config):
 @profile
 def preprocess_statuses(data):
     """Recording of statuses"""
-    global name_id_map
+    global id_name_map
 
     data_list = data.get("dataList")
     if isinstance(data_list, list):
@@ -67,5 +67,5 @@ def preprocess_statuses(data):
                 name = item.get("name")
                 id_ = item.get("id")
                 if id_ and name:
-                    name_id_map[name] = id_
+                    id_name_map[id_] = name
     return data

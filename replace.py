@@ -82,17 +82,33 @@ def recursive_replace(data, config_list, skillTagPersistency):
     return data
 
 
+def invert_map_with_warnings(ordered_status_names):
+    """Convert list of (id, name) pairs to dict name -> id. Prints warning if a name has multiple IDs."""
+    name_to_ids = {}
+
+    for id_, name in ordered_status_names:
+        if name not in name_to_ids:
+            name_to_ids[name] = []
+        name_to_ids[name].append(id_)
+
+    name_to_id = {}
+    for name, ids in name_to_ids.items():
+        # This can potentially result in incorrect status icon
+        name_to_id[name] = ids[0]
+    return name_to_id
+
+
 @profile
 def add_status_regex(replace_config, status_processed_files):
     """Replace status names and ids with linked sprites"""
-    from statuses import name_id_map
-    ordered_status_names = sorted(name_id_map.items(), key=lambda x: len(x[0]), reverse=True)
-    status_names = [re.escape(name) for name, _ in ordered_status_names]
-    status_ids = [re.escape(id_) for _, id_ in ordered_status_names]
+    from statuses import id_name_map
+    ordered_status_names = sorted(id_name_map.items(), key=lambda x: len(x[0]), reverse=True)
+    status_names = [re.escape(name) for _, name in ordered_status_names]
+    status_ids = [re.escape(id_) for id_, _ in ordered_status_names]
     pattern_names = r'(?<!\[)\b(' + '|'.join(status_names) + r')\b(?!\])'
     pattern_ids = r'\[(' + '|'.join(status_ids) + r')\]'
 
-    name_to_id = dict(ordered_status_names)
+    name_to_id = invert_map_with_warnings(ordered_status_names)
 
     def repl_name(match):
         name = match.group(1)
