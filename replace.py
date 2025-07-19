@@ -27,7 +27,7 @@ def split_sentences(data):
 
 
 @profile
-def replace_in_string(data, config, skillTagPersistency):
+def replace_in_string(data, config, skillTagPersistence):
     """Replacement via regex in acquired strings"""
     global compiled_patterns
     sentences = split_sentences(data)
@@ -36,7 +36,7 @@ def replace_in_string(data, config, skillTagPersistency):
     skill_tag_regex = re.compile(r'^(?:<[^>]+>\s*)*((?:\[[^\s\[\]]+])+)')
 
     for sentence in sentences:
-        skill_tag_match = skill_tag_regex.match(sentence) if skillTagPersistency else None
+        skill_tag_match = skill_tag_regex.match(sentence) if skillTagPersistence else None
 
         for change in config.get('changes', []):
             from_pattern = change.get('from')
@@ -68,17 +68,17 @@ def replace_in_string(data, config, skillTagPersistency):
 
 
 @profile
-def recursive_replace(data, config_list, skillTagPersistency):
+def recursive_replace(data, config_list, skillTagPersistence):
     """Recursive replace in JSON fields"""
     if isinstance(data, dict):
         for key in list(data.keys()):
             for config in config_list:
                 if key in config['fields'] and isinstance(data[key], str):
-                    data[key] = replace_in_string(data[key], config, skillTagPersistency)
-            data[key] = recursive_replace(data[key], config_list, skillTagPersistency)
+                    data[key] = replace_in_string(data[key], config, skillTagPersistence)
+            data[key] = recursive_replace(data[key], config_list, skillTagPersistence)
     elif isinstance(data, list):
         with ThreadPoolExecutor() as executor:
-            data = list(executor.map(lambda item: recursive_replace(item, config_list, skillTagPersistency), data))
+            data = list(executor.map(lambda item: recursive_replace(item, config_list, skillTagPersistence), data))
     return data
 
 
@@ -145,7 +145,7 @@ def add_status_regex(replace_config, status_processed_files):
 @profile
 def process_replaces(directory, config, status_processed_files):
     replace_config = config['replace']
-    skillTagPersistency = config['skillTagPersistency']
+    skillTagPersistence = config['skillTagPersistence']
     add_status_regex(replace_config, status_processed_files)
 
     total_files = sum(1 for filename in os.listdir(directory) if filename.endswith('.json'))
@@ -169,7 +169,7 @@ def process_replaces(directory, config, status_processed_files):
                     r for r in replace_config
                     if filename not in r.get('ignoredFiles', [])
                 ]
-                modified_data = recursive_replace(data, active_replaces, skillTagPersistency)
+                modified_data = recursive_replace(data, active_replaces, skillTagPersistence)
 
                 with open(path, 'w', encoding='utf-8') as f:
                     json.dump(modified_data, f, indent=4, ensure_ascii=False)

@@ -57,7 +57,7 @@ statuses
     ignoredFiles
         Specifies files whose contents will not be checked for statuses.
 
-skillTagPersistency
+skillTagPersistence
 
     Determines whether the first word in square brackets (e.g., [On kill]) is treated as a skill tag.
     If true, such tags will not be affected by replacement patterns below.

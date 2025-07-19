@@ -14,7 +14,7 @@
     },
     "ignoredFiles": ["SkillTag.json", "AttributeText.json", "EgoGiftCategory.json"]
   },
-  "skillTagPersistency": true,
+  "skillTagPersistence": true,
   "replace":[
     {
       "fields": [ "name" ],
@@ -26,7 +26,7 @@
       ]
     },
     {
-      "fields": [ "desc", "summary" ],
+      "fields": [ "desc", "summary", "lowMoraleDescription", "panicDescription" ],
       "changes": [
         {
           "from": "’",
@@ -67,7 +67,8 @@
           "to": "on Crit"
         },
         {
-          "from": "negative effect",
+          "regex": true,
+          "from": "negative (?:status )effect",
           "to": "ailment"
         },
         {
@@ -151,23 +152,28 @@
         },
         {
           "regex": true,
-          "from": "At (\\d+)\\+ SP[,:]",
-          "to": "Self: SP >= \\1 →"
+          "from": "At (\\d+)(%)?\\+ (HP|SP)[,:]",
+          "to": "Self: \\3 >= \\1\\2 →"
         },
         {
           "regex": true,
-          "from": "At (\\d+) or less SP[,:]",
-          "to": "Self: SP <= \\1 →"
+          "from": "At (\\d+)(%)? or less (HP|SP)[,:]",
+          "to": "Self: \\3 <= \\1\\2 →"
         },
         {
           "regex": true,
-          "from": "When below (\\S+) SP[,:]",
-          "to": "Self: SP < \\1 →"
+          "from": "At (\\d+)(%)? or more (HP|SP)[,:]",
+          "to": "Self: \\3 >= \\1\\2 →"
         },
         {
           "regex": true,
-          "from": "([^,\n:]+) when below (\\S+) SP",
-          "to": "Self: SP < \\2 → \\1"
+          "from": "When below (\\S+)(%)? (HP|SP)[,:]",
+          "to": "Self: \\3 < \\1\\2 →"
+        },
+        {
+          "regex": true,
+          "from": "([^,\\n:]+) when below (\\S+)(%)? (HP|SP)",
+          "to": "Self: \\4 < \\2\\3 → \\1"
         },
         {
           "regex": true,
@@ -226,13 +232,37 @@
         },
         {
           "regex": true,
-          "from": "[Ii]f (?:this unit's|user's) Speed is faster than the target's[,:]",
-          "to": "Faster than target →"
+          "from": "[Ii]f (?:the unit's|this unit's|user's) Speed is faster than (?:the )?(main )?(?:target's|target)([^,\n:]*)[,:]",
+          "to": "Faster than \\1target\\2 →"
         },
         {
           "regex": true,
-          "from": "[Ii]f this unit's Speed is faster than the target's by (\\S+) or more[,:]",
-          "to": "Faster than target by \\1+ →"
+          "from": "[Ii]f (?:the unit's|this unit's|user's) Speed is faster than (?:the )?(main )?(?:target's|target) by (\\S+) or more([^,\n:]*)[,:]",
+          "to": "Faster than \\1target by \\2+\\3 →"
+        },
+        {
+          "regex": true,
+          "from": "[Ii]f (?:the unit's|this unit's|user's) Speed is faster than (?:the )?(main )?(?:target's|target) by (\\S+)\\+([^,\n:]*)[,:]",
+          "to": "Faster than \\1target by \\2+\\3 →"
+        },
+        {
+          "regex": true,
+          "from": "[Ii]f (?:the unit's|this unit's|user's) Speed is faster than (?:the )?(main )?(?:target's|target)",
+          "to": "Faster than \\1target →"
+        },
+        {
+          "regex": true,
+          "from": "[Ii]f (?:the unit's|this unit's|user's) Speed is faster than (?:the )?(main )?(?:target's|target) by (\\S+) or more",
+          "to": "Faster than \\1target by \\2+ →"
+        },
+        {
+          "regex": true,
+          "from": "[Ii]f (?:the unit's|this unit's|user's) Speed is faster than (?:the )?(main )?(?:target's|target) by (\\S+)\\+",
+          "to": "Faster than \\1target by \\2+ →"
+        },
+        {
+          "from": "If this unit is faster than the target,",
+          "to": "Faster than target →"
         },
         {
           "regex": true,
@@ -241,10 +271,14 @@
         },
         {
           "regex": true,
+          "from": "[Ii]f (main )?(?:target's|target) Speed is slower than (?:the unit's|this unit's|user's) by (\\S+)\\+[,:]",
+          "to": "Faster than \\1target by \\2+ →"
+        },
+        {
+          "regex": true,
           "from": "At (\\d+)\\+ Speed[,:]",
           "to": "Speed >= \\1"
         },
-
         {
           "regex": true,
           "from": "Spend ([^,\n:]+) to gain",
@@ -269,6 +303,11 @@
           "regex": true,
           "from": "(?:1 )?(ally|allies) (?:with )?(?:the )?(most|highest|lowest|least) (?:current )?(Max )?(HP|SP)",
           "to": "\\2 \\3\\4 \\1"
+        },
+        {
+          "regex": true,
+          "from": "(?:1 )?(ally|allies) (?:with )?(?:the )?(slowest|fastest) Speed",
+          "to": "\\2 \\1"
         },
         {
           "regex": true,
@@ -336,6 +375,10 @@
           "regex": true,
           "from": "sum of ([^,\n:\\)]+) and ([^,\n:\\)]+)",
           "to": "\\1 + \\2"
+        },
+        {
+          "from": "At the start of the turn,",
+          "to": "Turn start:"
         }
       ]
     }]
