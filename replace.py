@@ -33,8 +33,10 @@ def replace_in_string(data, config, skillTagPersistency):
     sentences = split_sentences(data)
     processed_sentences = []
 
+    skill_tag_regex = re.compile(r'^(?:<[^>]+>\s*)*((?:\[[^\s\[\]]+])+)')
+
     for sentence in sentences:
-        skill_tag_match = re.match(r'^\[(.*?)]', sentence) if skillTagPersistency else None
+        skill_tag_match = skill_tag_regex.match(sentence) if skillTagPersistency else None
 
         for change in config.get('changes', []):
             from_pattern = change.get('from')
@@ -45,10 +47,10 @@ def replace_in_string(data, config, skillTagPersistency):
                 pattern = compiled_patterns.get(from_pattern)
                 try:
                     if skill_tag_match:
-                        first_word = skill_tag_match.group(0)
-                        rest_of_sentence = sentence[skill_tag_match.end():].lstrip()
+                        first_part = sentence[:skill_tag_match.end()]
+                        rest_of_sentence = sentence[skill_tag_match.end():]
                         rest_of_sentence = pattern.sub(to_pattern, rest_of_sentence)
-                        sentence = f"{first_word} {rest_of_sentence}"
+                        sentence = f"{first_part}{rest_of_sentence}" if rest_of_sentence else first_part
                     else:
                         sentence = pattern.sub(to_pattern, sentence)
                 except Exception as e:
