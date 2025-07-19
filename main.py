@@ -1,8 +1,10 @@
 import json
+import time
 from tkinter import Tk
 from tkinter.filedialog import askdirectory
-import time
+
 from line_profiler_pycharm import profile
+
 from move_files import move_translation_files
 from replace import process_replaces
 from statuses import process_statuses
@@ -36,7 +38,7 @@ def main():
         return
     Tk().withdraw()
     from move_files import target_folder
-    target_dir = target_folder if target_folder else askdirectory()
+    target_dir = target_folder if target_folder else askdirectory() + "/Lang/"+config["moveFiles"]["translationName"]
 
     if target_dir:
         start_time = time.time()

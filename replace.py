@@ -105,7 +105,7 @@ def add_status_regex(replace_config, status_processed_files):
     ordered_status_names = sorted(id_name_map.items(), key=lambda x: len(x[0]), reverse=True)
     status_names = [re.escape(name) for _, name in ordered_status_names]
     status_ids = [re.escape(id_) for id_, _ in ordered_status_names]
-    pattern_names = r'(?<!\[)\b(' + '|'.join(status_names) + r')\b(?!\])'
+    pattern_names = r'(?<!<link=")(?<!sprite name=")(?<!\[)\b(' + '|'.join(status_names) + r')\b(?![\]">])'
     pattern_ids = r'\[(' + '|'.join(status_ids) + r')\]'
 
     name_to_id = invert_map_with_warnings(ordered_status_names)
