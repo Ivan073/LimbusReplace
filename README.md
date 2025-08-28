@@ -18,6 +18,8 @@ Select LimbusCompany_Data folder to begin replacement
  
 	More abstract algorithm for <style> ignoring (now needs separate replace expression)
 
+    Record origonal translation files edit time to not update unnecessarily
+
 
 ## Configuration:
 
