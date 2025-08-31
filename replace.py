@@ -81,7 +81,7 @@ def recursive_replace(data, replace_list, skillTagPersistence: bool):
 
 
 def invert_map_with_warnings(ordered_status_names):
-    """Convert list of (id, name) pairs to dict name -> id. Prints warning if a name has multiple IDs."""
+    """Convert list of (id, name) pairs to dict name -> id. Ids with same name both stored, but only first used."""
     name_to_ids = {}
 
     # TODO: Check logic / rename
@@ -145,7 +145,8 @@ def add_status_regex(replace_config, status_files):
 def process_replaces(status_files):
     replace_config = config['replace']
     skillTagPersistence: bool = config['skillTagPersistence']
-    add_status_regex(replace_config, status_files)
+    if config["statuses"]["enabled"]:
+        add_status_regex(replace_config, status_files)
 
     total_files = sum(1 for filename in os.listdir(target_dir) if filename.endswith('.json'))
     processed_count = 0
