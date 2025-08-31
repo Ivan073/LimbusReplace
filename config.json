@@ -2,8 +2,7 @@
   "moveFiles": {
     "enabled": true,
     "sourceTranslation": "en",
-    "translationName": "en(short)",
-    "moveFont": true
+    "translationName": "en(short)"
   },
   "replaceFilesEnabled": true,
   "statuses": {

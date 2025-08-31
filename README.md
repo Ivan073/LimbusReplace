@@ -29,11 +29,7 @@ moveFiles
         Specifies the folder name of the base translation, for example, "en".
 
     translationName
-        Defines the folder name for the new translation
-
-    moveFont
-        Determines whether the font folder from project (Calibri) should be copied as well.
-        This may be necessary for the translation to display correctly.
+        Defines the folder name for the new translation.
 
 replaceFilesEnabled
 

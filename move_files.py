@@ -7,13 +7,9 @@ from globals import source_dir, target_dir, config
 
 
 @profile
-def add_font_folder():
+def move_fonts():
     os.makedirs(target_dir + '/Font/Context', exist_ok=True)
     os.makedirs(target_dir + '/Font/Title', exist_ok=True)
-
-
-@profile
-def move_fonts():
     path = target_dir + '/Font/'
     if os.path.exists(path):
         shutil.rmtree(path)
@@ -52,8 +48,4 @@ def copy_source_files():
 @profile
 def move_translation_files():
     copy_source_files()
-    # Empty font folders are necessary for translation to load for some reason
-    add_font_folder()
-    # Right now lack of fonts means that translation won't be applied
-    if config["moveFiles"]["moveFont"]:
-        move_fonts()
+    move_fonts()
