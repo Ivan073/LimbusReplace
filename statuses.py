@@ -7,7 +7,7 @@ id_name_map = {}
 
 
 @profile
-def process_statuses(directory, config):
+def find_statuses(directory: str, config):
     """Find files that supposed to contain statuses according to config"""
     global id_name_map
     id_name_map = {}
@@ -43,7 +43,7 @@ def process_statuses(directory, config):
                 skip_preprocessing = True
 
             if not skip_preprocessing:
-                preprocess_statuses(data)
+                add_statuses(data)
                 processed_files.append(filename)
 
             with open(path, 'w', encoding='utf-8') as f:
@@ -56,7 +56,7 @@ def process_statuses(directory, config):
 
 
 @profile
-def preprocess_statuses(data):
+def add_statuses(data):
     """Recording of statuses"""
     global id_name_map
 

@@ -27,7 +27,7 @@ def split_sentences(data):
 
 
 @profile
-def replace_in_string(data, config, skillTagPersistence):
+def replace_in_string(data, config, skillTagPersistence: bool):
     """Replacement via regex in acquired strings"""
     global compiled_patterns
     sentences = split_sentences(data)
@@ -68,7 +68,7 @@ def replace_in_string(data, config, skillTagPersistence):
 
 
 @profile
-def recursive_replace(data, config_list, skillTagPersistence):
+def recursive_replace(data, config_list, skillTagPersistence: bool):
     """Recursive replace in JSON fields"""
     if isinstance(data, dict):
         for key in list(data.keys()):
@@ -99,7 +99,7 @@ def invert_map_with_warnings(ordered_status_names):
 
 
 @profile
-def add_status_regex(replace_config, status_processed_files):
+def add_status_regex(replace_config, status_files):
     """Replace status names and ids with linked sprites"""
     from statuses import id_name_map
     ordered_status_names = sorted(id_name_map.items(), key=lambda x: len(x[0]), reverse=True)
@@ -125,17 +125,17 @@ def add_status_regex(replace_config, status_processed_files):
             'from': rf"<sprite [^>]+><color[^>]+><u><link[^>]+>([^>]+)</color></link></u>",
             'to': rf"\1", 'regex': True
         }],
-        'ignoredFiles': status_processed_files
+        'ignoredFiles': status_files
     }
     status_name_replace = {
         'fields': ['desc'],
         'changes': [{'from': pattern_names, 'to': repl_name, 'regex': True}],
-        'ignoredFiles': status_processed_files
+        'ignoredFiles': status_files
     }
     status_id_replace = {
         'fields': ['desc'],
         'changes': [{'from': pattern_ids, 'to': repl_id, 'regex': True}],
-        'ignoredFiles': status_processed_files
+        'ignoredFiles': status_files
     }
     replace_config.append(status_sprite_remove)
     replace_config.append(status_name_replace)
@@ -143,10 +143,10 @@ def add_status_regex(replace_config, status_processed_files):
 
 
 @profile
-def process_replaces(directory, config, status_processed_files):
+def process_replaces(directory, config, status_files):
     replace_config = config['replace']
-    skillTagPersistence = config['skillTagPersistence']
-    add_status_regex(replace_config, status_processed_files)
+    skillTagPersistence: bool = config['skillTagPersistence']
+    add_status_regex(replace_config, status_files)
 
     total_files = sum(1 for filename in os.listdir(directory) if filename.endswith('.json'))
     processed_count = 0

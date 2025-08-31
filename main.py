@@ -7,7 +7,7 @@ from line_profiler_pycharm import profile
 
 from move_files import move_translation_files
 from replace import process_replaces
-from statuses import process_statuses
+from statuses import find_statuses
 
 
 @profile
@@ -18,12 +18,12 @@ def load_config():
 
 
 @profile
-def process_files(directory, config):
+def process_files(directory: str, config):
     """Main file processing"""
     processed_files = []
     if config['statuses']['enabled']:
         print('Status collection...')
-        processed_files = process_statuses(directory, config)
+        processed_files = find_statuses(directory, config)
         print("Statuses collected")
 
     process_replaces(directory, config, processed_files)

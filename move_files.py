@@ -34,7 +34,7 @@ def move_fonts():
 
 
 @profile
-def copy_files(config):
+def copy_source_files(config):
     """Recursive file copy from source to target"""
     global source_folder, target_folder, config_path
     for root, dirs, files in os.walk(source_folder):
@@ -65,7 +65,7 @@ def copy_files(config):
 @profile
 def move_translation_files(config):
     select_source_folder(config)
-    copy_files(config)
+    copy_source_files(config)
     # Empty font folders are necessary for translation to load for some reason
     add_font_folder()
     # Right now lack of fonts means that translation won't be applied
