@@ -3,26 +3,24 @@ import os
 
 from line_profiler import profile
 
-id_name_map = {}
+from globals import config, target_dir, status_id_name_map
 
 
 @profile
-def find_statuses(directory: str, config):
+def find_statuses():
     """Find files that supposed to contain statuses according to config"""
-    global id_name_map
-    id_name_map = {}
     ignored_files = config['statuses']['ignoredFiles']
     processed_files = []
     required_fields = config['statuses']['fields']['required']
     optional_fields = config['statuses']['fields']['optional']
 
-    for filename in os.listdir(directory):
+    for filename in os.listdir(target_dir):
         if not filename.endswith('.json') or filename in ignored_files:
             continue
 
-        path = os.path.join(directory, filename)
+        path = os.path.join(target_dir, filename)
         try:
-            with open(path, 'r', encoding='utf-8') as f:
+            with open(path, 'r', encoding='utf-8-sig') as f:
                 data = json.load(f)
 
             data_list = data.get("dataList")
@@ -46,7 +44,7 @@ def find_statuses(directory: str, config):
                 add_statuses(data)
                 processed_files.append(filename)
 
-            with open(path, 'w', encoding='utf-8') as f:
+            with open(path, 'w', encoding='utf-8-sig') as f:
                 json.dump(data, f, indent=4, ensure_ascii=False)
 
         except Exception as e:
@@ -57,9 +55,7 @@ def find_statuses(directory: str, config):
 
 @profile
 def add_statuses(data):
-    """Recording of statuses"""
-    global id_name_map
-
+    """Add statuses to dictionary from json"""
     data_list = data.get("dataList")
     if isinstance(data_list, list):
         for item in data_list:
@@ -67,5 +63,5 @@ def add_statuses(data):
                 name = item.get("name")
                 id_ = item.get("id")
                 if id_ and name:
-                    id_name_map[id_] = name
+                    status_id_name_map[id_] = name
     return data

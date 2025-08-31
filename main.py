@@ -1,48 +1,37 @@
-import json
 import time
-from tkinter import Tk
-from tkinter.filedialog import askdirectory
 
 from line_profiler_pycharm import profile
 
+from file_list import process_file_list
+from globals import config, target_dir
 from move_files import move_translation_files
 from replace import process_replaces
 from statuses import find_statuses
 
 
 @profile
-def load_config():
-    """Load congig from config.json"""
-    with open('config.json', 'r', encoding='utf-8') as f:
-        return json.load(f)
-
-
-@profile
-def process_files(directory: str, config):
+def process_files():
     """Main file processing"""
     processed_files = []
     if config['statuses']['enabled']:
         print('Status collection...')
-        processed_files = find_statuses(directory, config)
+        processed_files = find_statuses()
         print("Statuses collected")
-
-    process_replaces(directory, config, processed_files)
+    process_replaces(processed_files)
 
 
 @profile
 def main():
-    config = load_config()
     if config["moveFiles"]["enabled"]:
-        move_translation_files(config)
+        move_translation_files()
     if not config["replaceFilesEnabled"]:
         return
-    Tk().withdraw()
-    from move_files import target_folder
-    target_dir = target_folder if target_folder else askdirectory() + "/Lang/"+config["moveFiles"]["translationName"]
+    # Tk().withdraw()
 
     if target_dir:
         start_time = time.time()
-        process_files(target_dir, config)
+        process_file_list()
+        process_files()
         print("Replace complete!")
         end_time = time.time()
         elapsed_time = end_time - start_time

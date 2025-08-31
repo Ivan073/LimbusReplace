@@ -1,14 +1,12 @@
 Select LimbusCompany_Data folder to begin replacement
 
-## Base funtionality:
+## Base functionality:
 
 	Move base game translation to new custom translation folder
 
  	Replace common strings with others for translation/wording purposes
 
   	Remove status names to make descriptions significantly shorter 
-
-
 
 ## Possible improvements:
 
@@ -19,7 +17,6 @@ Select LimbusCompany_Data folder to begin replacement
 	More abstract algorithm for <style> ignoring (now needs separate replace expression)
 
     Record origonal translation files edit time to not update unnecessarily
-
 
 ## Configuration:
 

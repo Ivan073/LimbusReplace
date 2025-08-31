@@ -5,7 +5,7 @@ from concurrent.futures import ThreadPoolExecutor
 
 from line_profiler import profile
 
-compiled_patterns = {}
+from globals import compiled_patterns, config, target_dir, skill_tag_ids
 
 
 def split_sentences(data):
@@ -27,18 +27,16 @@ def split_sentences(data):
 
 
 @profile
-def replace_in_string(data, config, skillTagPersistence: bool):
+def replace_in_string(data, replace_config, skillTagPersistence: bool):
     """Replacement via regex in acquired strings"""
-    global compiled_patterns
     sentences = split_sentences(data)
     processed_sentences = []
-
-    skill_tag_regex = re.compile(r'^(?:<[^>]+>\s*)*((?:\[[^\s\[\]]+])+)')
+    skill_tag_regex = re.compile(r'^(?:<[^>]+>\s*)*((?:\[(?:' + '|'.join(skill_tag_ids) + r')])+)')
 
     for sentence in sentences:
         skill_tag_match = skill_tag_regex.match(sentence) if skillTagPersistence else None
 
-        for change in config.get('changes', []):
+        for change in replace_config.get('changes', []):
             from_pattern = change.get('from')
             to_pattern = change.get('to', '')
             use_regex = change.get('regex', False)
@@ -68,17 +66,17 @@ def replace_in_string(data, config, skillTagPersistence: bool):
 
 
 @profile
-def recursive_replace(data, config_list, skillTagPersistence: bool):
+def recursive_replace(data, replace_list, skillTagPersistence: bool):
     """Recursive replace in JSON fields"""
     if isinstance(data, dict):
         for key in list(data.keys()):
-            for config in config_list:
-                if key in config['fields'] and isinstance(data[key], str):
-                    data[key] = replace_in_string(data[key], config, skillTagPersistence)
-            data[key] = recursive_replace(data[key], config_list, skillTagPersistence)
+            for replace_config in replace_list:
+                if key in replace_config['fields'] and isinstance(data[key], str):
+                    data[key] = replace_in_string(data[key], replace_config, skillTagPersistence)
+            data[key] = recursive_replace(data[key], replace_list, skillTagPersistence)
     elif isinstance(data, list):
         with ThreadPoolExecutor() as executor:
-            data = list(executor.map(lambda item: recursive_replace(item, config_list, skillTagPersistence), data))
+            data = list(executor.map(lambda item: recursive_replace(item, replace_list, skillTagPersistence), data))
     return data
 
 
@@ -86,6 +84,7 @@ def invert_map_with_warnings(ordered_status_names):
     """Convert list of (id, name) pairs to dict name -> id. Prints warning if a name has multiple IDs."""
     name_to_ids = {}
 
+    # TODO: Check logic / rename
     for id_, name in ordered_status_names:
         if name not in name_to_ids:
             name_to_ids[name] = []
@@ -101,8 +100,8 @@ def invert_map_with_warnings(ordered_status_names):
 @profile
 def add_status_regex(replace_config, status_files):
     """Replace status names and ids with linked sprites"""
-    from statuses import id_name_map
-    ordered_status_names = sorted(id_name_map.items(), key=lambda x: len(x[0]), reverse=True)
+    from statuses import status_id_name_map
+    ordered_status_names = sorted(status_id_name_map.items(), key=lambda x: len(x[0]), reverse=True)
     status_names = [re.escape(name) for _, name in ordered_status_names]
     status_ids = [re.escape(id_) for id_, _ in ordered_status_names]
     pattern_names = r'(?<!<link=")(?<!sprite name=")(?<!\[)\b(' + '|'.join(status_names) + r')\b(?![\]">])'
@@ -143,26 +142,25 @@ def add_status_regex(replace_config, status_files):
 
 
 @profile
-def process_replaces(directory, config, status_files):
+def process_replaces(status_files):
     replace_config = config['replace']
     skillTagPersistence: bool = config['skillTagPersistence']
     add_status_regex(replace_config, status_files)
 
-    total_files = sum(1 for filename in os.listdir(directory) if filename.endswith('.json'))
+    total_files = sum(1 for filename in os.listdir(target_dir) if filename.endswith('.json'))
     processed_count = 0
 
-    # Pattern compilation for perfomance boost
-    global compiled_patterns
+    # Pattern compilation for performance boost
     for replace in replace_config:
         for change in replace["changes"]:
             if change.get('regex') and change['regex'] and change['from'] not in compiled_patterns:
                 compiled_patterns[change['from']] = re.compile(rf'{change["from"]}')
 
-    for filename in os.listdir(directory):
+    for filename in os.listdir(target_dir):
         if filename.endswith('.json'):
-            path = os.path.join(directory, filename)
+            path = os.path.join(target_dir, filename)
             try:
-                with open(path, 'r', encoding='utf-8') as f:
+                with open(path, 'r', encoding='utf-8-sig') as f:
                     data = json.load(f)
 
                 active_replaces = [
@@ -171,7 +169,7 @@ def process_replaces(directory, config, status_files):
                 ]
                 modified_data = recursive_replace(data, active_replaces, skillTagPersistence)
 
-                with open(path, 'w', encoding='utf-8') as f:
+                with open(path, 'w', encoding='utf-8-sig') as f:
                     json.dump(modified_data, f, indent=4, ensure_ascii=False)
 
                 processed_count += 1

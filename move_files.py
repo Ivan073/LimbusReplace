@@ -1,32 +1,20 @@
 import os
 import shutil
-from tkinter import filedialog
 
 from line_profiler_pycharm import profile
 
-source_folder = ""
-target_folder = ""
-config_path = ""
-
-
-@profile
-def select_source_folder(config):
-    global source_folder, target_folder, config_path
-    data_folder = filedialog.askdirectory()
-    source_folder = data_folder + "/Assets/Resources_moved/Localize/"+config["moveFiles"]["sourceTranslation"]
-    config_path = data_folder + "/Lang/"
-    target_folder = data_folder + "/Lang/"+config["moveFiles"]["translationName"]
+from globals import source_dir, target_dir, config
 
 
 @profile
 def add_font_folder():
-    os.makedirs(target_folder + '/Font/Context', exist_ok=True)
-    os.makedirs(target_folder + '/Font/Title', exist_ok=True)
+    os.makedirs(target_dir + '/Font/Context', exist_ok=True)
+    os.makedirs(target_dir + '/Font/Title', exist_ok=True)
 
 
 @profile
 def move_fonts():
-    path = target_folder + '/Font/'
+    path = target_dir + '/Font/'
     if os.path.exists(path):
         shutil.rmtree(path)
     src = os.path.join(os.path.dirname(os.path.abspath(__file__)), 'Font')
@@ -34,16 +22,15 @@ def move_fonts():
 
 
 @profile
-def copy_source_files(config):
+def copy_source_files():
     """Recursive file copy from source to target"""
-    global source_folder, target_folder, config_path
-    for root, dirs, files in os.walk(source_folder):
-        relative_path = os.path.relpath(root, source_folder)
+    for root, dirs, files in os.walk(source_dir):
+        relative_path = os.path.relpath(root, source_dir)
 
-        target_path = os.path.join(target_folder, relative_path)
+        target_path = os.path.join(target_dir, relative_path)
         os.makedirs(target_path, exist_ok=True)
 
-        prefix = config["moveFiles"]["sourceTranslation"].upper()+"_"
+        prefix = config["moveFiles"]["sourceTranslation"].upper() + "_"
 
         for file in files:
             if file.endswith('.json') and file.startswith(prefix):
@@ -63,9 +50,8 @@ def copy_source_files(config):
 
 
 @profile
-def move_translation_files(config):
-    select_source_folder(config)
-    copy_source_files(config)
+def move_translation_files():
+    copy_source_files()
     # Empty font folders are necessary for translation to load for some reason
     add_font_folder()
     # Right now lack of fonts means that translation won't be applied
