@@ -2,21 +2,21 @@ Select LimbusCompany_Data folder to begin replacement
 
 ## Base functionality:
 
-	Move base game translation to new custom translation folder
+- Move base game translation to new custom translation folder
 
- 	Replace common strings with others for translation/wording purposes
+- Replace common strings with others for translation/wording purposes
 
-  	Remove status names to make descriptions significantly shorter (and replace with clickable status icons)
+- Remove status names to make descriptions significantly shorter (and replace with clickable status icons)
 
 ## Possible improvements:
 
-	Better capitalization logic after all replacements (Word order change may result in wrong capitalization)
+- Better capitalization logic after all replacements (Word order change may result in wrong capitalization)
  
-	Better logic for sentence full-stops (accounting for lower-case symbols)
+- Better logic for sentence full-stops (accounting for lower-case symbols)
  
-	More abstract algorithm for <style> ignoring (now needs separate replace expression)
+- More abstract algorithm for \<style> ignoring (now needs separate replace expression)
 
-    Record original translation files edit time to not update unnecessarily
+- Record original translation files edit time to not update unnecessarily
 
 ## Configuration:
 
