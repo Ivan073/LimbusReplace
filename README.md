@@ -6,7 +6,7 @@ Select LimbusCompany_Data folder to begin replacement
 
  	Replace common strings with others for translation/wording purposes
 
-  	Remove status names to make descriptions significantly shorter 
+  	Remove status names to make descriptions significantly shorter (and replace with clickable status icons)
 
 ## Possible improvements:
 
@@ -16,64 +16,66 @@ Select LimbusCompany_Data folder to begin replacement
  
 	More abstract algorithm for <style> ignoring (now needs separate replace expression)
 
-    Record origonal translation files edit time to not update unnecessarily
+    Record original translation files edit time to not update unnecessarily
 
 ## Configuration:
 
-moveFiles
+_**"moveFiles"**_
 
-    enabled
+    "enabled"
         This parameter turns the copying of translation files on or off.
 
-    sourceTranslation
+    "sourceTranslation"
         Specifies the folder name of the base translation, for example, "en".
 
-    translationName
+    "translationName"
         Defines the folder name for the new translation.
 
-replaceFilesEnabled
+_**"replaceFilesEnabled"**_
 
     Enables or disables the replacement of strings in files according to the patterns specified in the "replace" section.
     When true, all specified replacements will be performed.
 
-statuses
+_**"statuses"**_
 
-    enabled
+    "enabled"
         Activates the collection and replacement of status objects within files.
+        Creates regex for "replaceFilesEnabled", so it needs to be enabled.
 
-    fields
+    "fields"
+        Fields to determine based on josn structure if it is description of statuses.
+        May be unprecise and rudimentary if RemoteLocalizeFileList.json works
 
-        required
-            Lists the mandatory fields an object must have to be considered a status.
+        "required"
+            Lists the mandatory fields an object must have to be considered a status. 
 
-        optional
+        "optional"
             Lists additional fields that are allowed but not required for a status object.
 
-    ignoredFiles
+    "ignoredFiles"
         Specifies files whose contents will not be checked for statuses.
 
-skillTagPersistence
+_**"skillTagPersistence"**_
 
-    Determines whether the first word in square brackets (e.g., [On kill]) is treated as a skill tag.
-    If true, such tags will not be affected by replacement patterns below.
+    Determines whether the first words in square brackets (e.g., [On kill]) is treated as a skill tag.
+    If true, such tags will not be affected by replacement patterns below and will stay in the beginning of the line.
 
-replace
+_**"replace"**_
 
     An array of objects specifying how and where to replace certain strings in translation files.
 
     Each object contains:
-
-        fields
+        "fields"
             An array of field names in which replacements should occur.
 
-        changes
+        "changes"
             An array of replacement rules, each with:
 
-                from
+                "from"
                     The string or regular expression pattern to search for.
 
-                to
+                "to"
                     The replacement string, which can use groups from the regex if applicable.
 
-                regex
-                    Boolean indicating whether "from" is a regular expression.
+                "regex"
+                    Boolean indicating whether "from" is a regular expression (will require additional character escaping).
