@@ -1,12 +1,9 @@
 import os
 import shutil
 
-from line_profiler_pycharm import profile
-
 from globals import source_dir, target_dir, config
 
 
-@profile
 def move_fonts():
     os.makedirs(target_dir + '/Font/Context', exist_ok=True)
     os.makedirs(target_dir + '/Font/Title', exist_ok=True)
@@ -17,7 +14,6 @@ def move_fonts():
     shutil.copytree(src, path)
 
 
-@profile
 def copy_source_files():
     """Recursive file copy from source to target"""
     for root, dirs, files in os.walk(source_dir):
@@ -45,7 +41,6 @@ def copy_source_files():
     print(f"Copy finished!")
 
 
-@profile
 def move_translation_files():
     copy_source_files()
     move_fonts()

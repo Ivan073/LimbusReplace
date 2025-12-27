@@ -3,8 +3,6 @@ import os
 import re
 from concurrent.futures import ThreadPoolExecutor
 
-from line_profiler import profile
-
 from globals import compiled_patterns, config, target_dir, skill_tag_ids
 
 
@@ -26,7 +24,6 @@ def split_sentences(data):
     return final_result
 
 
-@profile
 def replace_in_string(data, replace_config, skillTagPersistence: bool):
     """Replacement via regex in acquired strings"""
     sentences = split_sentences(data)
@@ -65,7 +62,6 @@ def replace_in_string(data, replace_config, skillTagPersistence: bool):
     return "".join(processed_sentences)
 
 
-@profile
 def recursive_replace(data, replace_list, skillTagPersistence: bool):
     """Recursive replace in JSON fields"""
     if isinstance(data, dict):
@@ -97,7 +93,6 @@ def invert_map_with_warnings(ordered_status_names):
     return name_to_id
 
 
-@profile
 def add_status_regex(replace_config, status_files):
     """Replace status names and ids with linked sprites"""
     from statuses import status_id_name_map
@@ -141,7 +136,6 @@ def add_status_regex(replace_config, status_files):
     replace_config.append(status_id_replace)
 
 
-@profile
 def process_replaces(status_files):
     replace_config = config['replace']
     skillTagPersistence: bool = config['skillTagPersistence']

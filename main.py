@@ -1,7 +1,5 @@
 import time
 
-from line_profiler_pycharm import profile
-
 from file_list import process_file_list
 from globals import config, target_dir
 from move_files import move_translation_files
@@ -9,7 +7,6 @@ from replace import process_replaces
 from statuses import find_statuses
 
 
-@profile
 def process_files():
     """Main file processing"""
     processed_files = []
@@ -20,7 +17,6 @@ def process_files():
     process_replaces(processed_files)
 
 
-@profile
 def main():
     if config["moveFiles"]["enabled"]:
         move_translation_files()

@@ -1,12 +1,9 @@
 import json
 import os
 
-from line_profiler import profile
-
 from globals import config, target_dir, status_id_name_map
 
 
-@profile
 def find_statuses():
     """Find files that supposed to contain statuses according to config"""
     ignored_files = config['statuses']['ignoredFiles']
@@ -53,7 +50,6 @@ def find_statuses():
     return processed_files
 
 
-@profile
 def add_statuses(data):
     """Add statuses to dictionary from json"""
     data_list = data.get("dataList")
