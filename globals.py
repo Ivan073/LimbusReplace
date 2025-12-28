@@ -1,17 +1,25 @@
 import json
+from re import Pattern
+from json_structure import Config
 
-data_dir = None  # LimbusCompany_Data path
-source_dir = None  # Path to original translation
-target_dir = None  # Path to resulting translation
-file_list_path = None  # Path to RemoteLocalizeFileList.json
+data_dir: str = ""  # LimbusCompany_Data path
+source_dir: str = ""  # Path to original translation
+target_dir: str = ""  # Path to resulting translation
+file_list_path: str = ""  # Path to RemoteLocalizeFileList.json
 
 config = None  # Config file json
 
-compiled_patterns = {}  # Dictionary of compiled regex patterns to boost performance
+compiled_patterns: dict[
+    str, Pattern[str]
+] = {}  # Dictionary of compiled regex patterns to boost performance
 
-status_id_name_map = {}  # Dictionary of status names to unify status ids and names
+status_id_name_map: dict[
+    str, str
+] = {}  # Dictionary of status names to unify status ids and names
 
-skill_tag_ids = []  # List of skill tag ids (to be ignored in replaces if enabled)
+skill_tag_ids: list[
+    str
+] = []  # List of skill tag ids (to be ignored in replaces if enabled)
 
 
 def init_globals():
@@ -31,7 +39,7 @@ def init_globals():
     )
 
 
-def load_config():
+def load_config() -> Config:
     """Load config from config.json"""
     with open("config.json", "r", encoding="utf-8-sig") as f:
         return json.load(f)

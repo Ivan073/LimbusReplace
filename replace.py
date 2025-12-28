@@ -2,11 +2,12 @@ import json
 import os
 import re
 from concurrent.futures import ThreadPoolExecutor
-
+from typing import Any
 from globals import compiled_patterns, config, target_dir, skill_tag_ids
+from json_structure import JSONType, Match, ReplaceRule
 
 
-def split_sentences(data):
+def split_sentences(data: str):
     """Split string into sentences"""
     # Split by ". "
     sentences = re.split(r"(?<=\.) ", data)
@@ -15,7 +16,7 @@ def split_sentences(data):
         for i, sentence in enumerate(sentences)
     ]
     # Split by \n
-    final_result = []
+    final_result: list[str] = []
     for sentence in sentences_with_space:
         split_by_newline = sentence.split("\n")
         for i, part in enumerate(split_by_newline):
@@ -27,10 +28,12 @@ def split_sentences(data):
     return final_result
 
 
-def replace_in_string(data, replace_config, skillTagPersistence: bool):
+def replace_in_string(
+    data: str, replace_config: ReplaceRule, skillTagPersistence: bool
+):
     """Replacement via regex in acquired strings"""
     sentences = split_sentences(data)
-    processed_sentences = []
+    processed_sentences: list[str] = []
     skill_tag_regex = re.compile(
         r"^(?:<[^>]+>\s*)*((?:\[(?:" + "|".join(skill_tag_ids) + r")])+)"
     )
@@ -47,6 +50,8 @@ def replace_in_string(data, replace_config, skillTagPersistence: bool):
 
             if use_regex:
                 pattern = compiled_patterns.get(from_pattern)
+                if not pattern:
+                    raise Exception("Pattern not compiled")
                 try:
                     if skill_tag_match:
                         first_part = sentence[: skill_tag_match.end()]
@@ -73,7 +78,9 @@ def replace_in_string(data, replace_config, skillTagPersistence: bool):
     return "".join(processed_sentences)
 
 
-def recursive_replace(data, replace_list, skillTagPersistence: bool):
+def recursive_replace(
+    data: JSONType, replace_list: list[ReplaceRule], skillTagPersistence: bool
+):
     """Recursive replace in JSON fields"""
     if isinstance(data, dict):
         for key in list(data.keys()):
@@ -84,21 +91,18 @@ def recursive_replace(data, replace_list, skillTagPersistence: bool):
                     )
             data[key] = recursive_replace(data[key], replace_list, skillTagPersistence)
     elif isinstance(data, list):
-        with ThreadPoolExecutor() as executor:
-            data = list(
-                executor.map(
-                    lambda item: recursive_replace(
-                        item, replace_list, skillTagPersistence
-                    ),
-                    data,
-                )
-            )
+
+        def process_item(item: Any) -> Any:
+            return recursive_replace(item, replace_list, skillTagPersistence)
+
+        data = list(ThreadPoolExecutor().map(process_item, data))
+
     return data
 
 
-def invert_map_with_warnings(ordered_status_names):
+def invert_map_with_warnings(ordered_status_names: list[tuple[str, str]]):
     """Convert list of (id, name) pairs to dict name -> id. Ids with same name both stored, but only first used."""
-    name_to_ids = {}
+    name_to_ids: dict[str, list[str]] = {}
 
     # TODO: Check logic / rename
     for id_, name in ordered_status_names:
@@ -106,14 +110,14 @@ def invert_map_with_warnings(ordered_status_names):
             name_to_ids[name] = []
         name_to_ids[name].append(id_)
 
-    name_to_id = {}
+    name_to_id: dict[str, str] = {}
     for name, ids in name_to_ids.items():
         # This can potentially result in incorrect status icon
         name_to_id[name] = ids[0]
     return name_to_id
 
 
-def add_status_regex(replace_config, status_files):
+def add_status_regex(replace_config: list[ReplaceRule], status_files: list[str]):
     """Replace status names and ids with linked sprites"""
     from statuses import status_id_name_map
 
@@ -131,32 +135,32 @@ def add_status_regex(replace_config, status_files):
 
     name_to_id = invert_map_with_warnings(ordered_status_names)
 
-    def repl_name(match):
+    def repl_name(match: Match[str]):
         name = match.group(1)
         id_ = name_to_id[name]
         return f'<link="{id_}"><sprite name="{id_}"></link>'
 
-    def repl_id(match):
+    def repl_id(match: Match[str]):
         id_ = match.group(1)
         return f'<link="{id_}"><sprite name="{id_}"></link>'
 
-    status_sprite_remove = {
+    status_sprite_remove: ReplaceRule = {
         "fields": ["desc"],
         "changes": [
             {
-                "from": rf"<sprite [^>]+><color[^>]+><u><link[^>]+>([^>]+)</color></link></u>",
-                "to": rf"\1",
+                "from": r"<sprite [^>]+><color[^>]+><u><link[^>]+>([^>]+)</color></link></u>",
+                "to": r"\1",
                 "regex": True,
             }
         ],
         "ignoredFiles": status_files,
     }
-    status_name_replace = {
+    status_name_replace: ReplaceRule = {
         "fields": ["desc"],
         "changes": [{"from": pattern_names, "to": repl_name, "regex": True}],
         "ignoredFiles": status_files,
     }
-    status_id_replace = {
+    status_id_replace: ReplaceRule = {
         "fields": ["desc"],
         "changes": [{"from": pattern_ids, "to": repl_id, "regex": True}],
         "ignoredFiles": status_files,
@@ -166,7 +170,7 @@ def add_status_regex(replace_config, status_files):
     replace_config.append(status_id_replace)
 
 
-def process_replaces(status_files):
+def process_replaces(status_files: list[str]):
     replace_config = config["replace"]
     skillTagPersistence: bool = config["skillTagPersistence"]
     if config["statuses"]["enabled"]:
@@ -180,11 +184,7 @@ def process_replaces(status_files):
     # Pattern compilation for performance boost
     for replace in replace_config:
         for change in replace["changes"]:
-            if (
-                change.get("regex")
-                and change["regex"]
-                and change["from"] not in compiled_patterns
-            ):
+            if change.get("regex", False) and change["from"] not in compiled_patterns:
                 compiled_patterns[change["from"]] = re.compile(rf"{change['from']}")
 
     for filename in os.listdir(target_dir):

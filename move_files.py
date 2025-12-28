@@ -16,7 +16,7 @@ def move_fonts():
 
 def copy_source_files():
     """Recursive file copy from source to target"""
-    for root, dirs, files in os.walk(source_dir):
+    for root, _, files in os.walk(source_dir):
         relative_path = os.path.relpath(root, source_dir)
 
         target_path = os.path.join(target_dir, relative_path)
@@ -38,7 +38,7 @@ def copy_source_files():
             except Exception as e:
                 print(f"Copy error in {file}: {e}")
 
-    print(f"Copy finished!")
+    print("Copy finished!")
 
 
 def move_translation_files():

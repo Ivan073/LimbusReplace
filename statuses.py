@@ -7,7 +7,7 @@ from globals import config, target_dir, status_id_name_map
 def find_statuses():
     """Find files that supposed to contain statuses according to config"""
     ignored_files = config["statuses"]["ignoredFiles"]
-    processed_files = []
+    processed_files: list[str] = []
     required_fields = config["statuses"]["fields"]["required"]
     optional_fields = config["statuses"]["fields"]["optional"]
 
@@ -61,8 +61,8 @@ def add_statuses(data):
     if isinstance(data_list, list):
         for item in data_list:
             if isinstance(item, dict):
-                name = item.get("name")
-                id_ = item.get("id")
+                name: str = item.get("name")
+                id_: str = item.get("id")
                 if id_ and name:
                     status_id_name_map[id_] = name
     return data

@@ -79,3 +79,5 @@ _**"replace"**_
 
                 "regex"
                     Boolean indicating whether "from" is a regular expression (will require additional character escaping).
+
+        Can also contain "ignoredFiles" - list of filenames to ignore replacements
