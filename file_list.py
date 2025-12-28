@@ -5,7 +5,11 @@ from json_structure import SkillTag
 
 
 def process_file_list():
-    """Use RemoteLocalizeFileList.json to get useful data lists"""
+    """
+    Use RemoteLocalizeFileList.json to get useful data lists.
+
+    Gets skillTag files to use for skillTagPersistence later
+    """
     with open(file_list_path, "r", encoding="utf-8-sig") as f:
         data = json.load(f)
 
