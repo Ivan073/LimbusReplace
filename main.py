@@ -10,8 +10,8 @@ from statuses import find_statuses
 def process_files():
     """Main file processing"""
     processed_files = []
-    if config['statuses']['enabled']:
-        print('Status collection...')
+    if config["statuses"]["enabled"]:
+        print("Status collection...")
         processed_files = find_statuses()
         print("Statuses collected")
     process_replaces(processed_files)

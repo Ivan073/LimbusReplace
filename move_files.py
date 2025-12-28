@@ -5,12 +5,12 @@ from globals import source_dir, target_dir, config
 
 
 def move_fonts():
-    os.makedirs(target_dir + '/Font/Context', exist_ok=True)
-    os.makedirs(target_dir + '/Font/Title', exist_ok=True)
-    path = target_dir + '/Font/'
+    os.makedirs(target_dir + "/Font/Context", exist_ok=True)
+    os.makedirs(target_dir + "/Font/Title", exist_ok=True)
+    path = target_dir + "/Font/"
     if os.path.exists(path):
         shutil.rmtree(path)
-    src = os.path.join(os.path.dirname(os.path.abspath(__file__)), 'Font')
+    src = os.path.join(os.path.dirname(os.path.abspath(__file__)), "Font")
     shutil.copytree(src, path)
 
 
@@ -25,8 +25,8 @@ def copy_source_files():
         prefix = config["moveFiles"]["sourceTranslation"].upper() + "_"
 
         for file in files:
-            if file.endswith('.json') and file.startswith(prefix):
-                new_filename = file[len(prefix):]
+            if file.endswith(".json") and file.startswith(prefix):
+                new_filename = file[len(prefix) :]
             else:
                 new_filename = file
 

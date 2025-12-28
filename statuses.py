@@ -6,18 +6,18 @@ from globals import config, target_dir, status_id_name_map
 
 def find_statuses():
     """Find files that supposed to contain statuses according to config"""
-    ignored_files = config['statuses']['ignoredFiles']
+    ignored_files = config["statuses"]["ignoredFiles"]
     processed_files = []
-    required_fields = config['statuses']['fields']['required']
-    optional_fields = config['statuses']['fields']['optional']
+    required_fields = config["statuses"]["fields"]["required"]
+    optional_fields = config["statuses"]["fields"]["optional"]
 
     for filename in os.listdir(target_dir):
-        if not filename.endswith('.json') or filename in ignored_files:
+        if not filename.endswith(".json") or filename in ignored_files:
             continue
 
         path = os.path.join(target_dir, filename)
         try:
-            with open(path, 'r', encoding='utf-8-sig') as f:
+            with open(path, "r", encoding="utf-8-sig") as f:
                 data = json.load(f)
 
             data_list = data.get("dataList")
@@ -29,10 +29,15 @@ def find_statuses():
                         if not isinstance(item.get(field), str):
                             skip_preprocessing = True
                     for field in optional_fields:
-                        if item.get(field) is not None and not isinstance(item.get(field), str):
+                        if item.get(field) is not None and not isinstance(
+                            item.get(field), str
+                        ):
                             skip_preprocessing = True
-                    if not set(required_fields).intersection(set(item.keys())) or not set(item.keys()).issubset(
-                            set(required_fields + optional_fields)):
+                    if not set(required_fields).intersection(
+                        set(item.keys())
+                    ) or not set(item.keys()).issubset(
+                        set(required_fields + optional_fields)
+                    ):
                         skip_preprocessing = True
             else:
                 skip_preprocessing = True
@@ -41,7 +46,7 @@ def find_statuses():
                 add_statuses(data)
                 processed_files.append(filename)
 
-            with open(path, 'w', encoding='utf-8-sig') as f:
+            with open(path, "w", encoding="utf-8-sig") as f:
                 json.dump(data, f, indent=4, ensure_ascii=False)
 
         except Exception as e:
