@@ -28,10 +28,9 @@ def split_sentences(data: str):
     return final_result
 
 
-def replace_in_string(
-    data: str, replace_config: ReplaceRule, skillTagPersistence: bool
-):
+def replace_in_string(data: str, replace_config: ReplaceRule):
     """Replacement via regex in acquired strings"""
+    skillTagPersistence: bool = config["skillTagPersistence"]
     sentences = split_sentences(data)
     processed_sentences: list[str] = []
     skill_tag_regex = re.compile(
@@ -78,22 +77,18 @@ def replace_in_string(
     return "".join(processed_sentences)
 
 
-def recursive_replace(
-    data: JSONType, replace_list: list[ReplaceRule], skillTagPersistence: bool
-):
+def recursive_replace(data: JSONType, replace_list: list[ReplaceRule]):
     """Recursive replace in JSON fields"""
     if isinstance(data, dict):
         for key in list(data.keys()):
             for replace_config in replace_list:
                 if key in replace_config["fields"] and isinstance(data[key], str):
-                    data[key] = replace_in_string(
-                        data[key], replace_config, skillTagPersistence
-                    )
-            data[key] = recursive_replace(data[key], replace_list, skillTagPersistence)
+                    data[key] = replace_in_string(data[key], replace_config)
+            data[key] = recursive_replace(data[key], replace_list)
     elif isinstance(data, list):
 
         def process_item(item: Any) -> Any:
-            return recursive_replace(item, replace_list, skillTagPersistence)
+            return recursive_replace(item, replace_list)
 
         data = list(ThreadPoolExecutor().map(process_item, data))
 
@@ -172,7 +167,7 @@ def add_status_regex(replace_config: list[ReplaceRule], status_files: list[str])
 
 def process_replaces(status_files: list[str]):
     replace_config = config["replace"]
-    skillTagPersistence: bool = config["skillTagPersistence"]
+
     if config["statuses"]["enabled"]:
         add_status_regex(replace_config, status_files)
 
@@ -199,9 +194,7 @@ def process_replaces(status_files: list[str]):
                     for r in replace_config
                     if filename not in r.get("ignoredFiles", [])
                 ]
-                modified_data = recursive_replace(
-                    data, active_replaces, skillTagPersistence
-                )
+                modified_data = recursive_replace(data, active_replaces)
 
                 with open(path, "w", encoding="utf-8-sig") as f:
                     json.dump(modified_data, f, indent=4, ensure_ascii=False)
