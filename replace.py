@@ -43,12 +43,12 @@ def replace_in_string(data: str, replace_config: ReplaceRule):
         )
 
         for change in replace_config.get("changes", []):
-            from_pattern = change.get("from")
+            from_pattern = change["from"]
             to_pattern = change.get("to", "")
             use_regex = change.get("regex", False)
 
             if use_regex:
-                pattern = compiled_patterns.get(from_pattern)
+                pattern = compiled_patterns[from_pattern]
                 if not pattern:
                     raise Exception("Pattern not compiled")
                 try:
