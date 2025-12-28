@@ -171,9 +171,7 @@ def process_replaces(status_files: list[str]):
     if config["statuses"]["enabled"]:
         add_status_regex(replace_config, status_files)
 
-    total_files = sum(
-        1 for filename in os.listdir(target_dir) if filename.endswith(".json")
-    )
+    total_files = sum(map(lambda x: x.endswith(".json"), os.listdir(target_dir)))
     processed_count = 0
 
     # Pattern compilation for performance boost
