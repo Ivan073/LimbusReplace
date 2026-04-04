@@ -2,8 +2,8 @@ from re import Match
 from typing import Any, Callable, TypedDict, NotRequired, Union
 
 # === COMMON TYPE FOR UNKNOWN JSON ===
-
 JSONType = Union[dict[str, Any], list[Any], str, int, float, bool, None]
+
 
 # === CONFIG ===
 ReplaceChange = TypedDict(
@@ -54,3 +54,9 @@ class Config(TypedDict):
 class SkillTag(TypedDict):
     id: str
     name: str
+
+
+# === StatusFile ===
+class StatusItem(TypedDict):
+    name: str
+    id: str

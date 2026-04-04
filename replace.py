@@ -2,7 +2,6 @@ import json
 import os
 import re
 from concurrent.futures import ThreadPoolExecutor
-from typing import Any
 from globals import compiled_patterns, config, target_dir, skill_tag_ids
 from json_structure import JSONType, Match, ReplaceRule
 
@@ -87,7 +86,7 @@ def recursive_replace(data: JSONType, replace_list: list[ReplaceRule]):
             data[key] = recursive_replace(data[key], replace_list)
     elif isinstance(data, list):
 
-        def process_item(item: Any) -> Any:
+        def process_item(item: JSONType) -> JSONType:
             return recursive_replace(item, replace_list)
 
         data = list(ThreadPoolExecutor().map(process_item, data))

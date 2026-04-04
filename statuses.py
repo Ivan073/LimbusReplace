@@ -1,7 +1,8 @@
 import json
 import os
-
+from typing import Any, cast
 from globals import config, target_dir, status_id_name_map
+from json_structure import StatusItem
 
 
 def find_statuses():
@@ -23,6 +24,7 @@ def find_statuses():
             data_list = data.get("dataList")
             skip_preprocessing = False
             if isinstance(data_list, list) and data_list:
+                data_list = cast(list[dict[str, Any]], data_list)
                 for item in data_list:
                     # TODO: Right now keyword files should have only string fields (this may change in future)
                     for field in required_fields:
@@ -55,12 +57,14 @@ def find_statuses():
     return processed_files
 
 
-def add_statuses(data):
+def add_statuses(data: Any):
     """Add statuses to dictionary from json"""
     data_list = data.get("dataList")
     if isinstance(data_list, list):
+        data_list = cast(list[Any], data_list)
         for item in data_list:
             if isinstance(item, dict):
+                item = cast(StatusItem, item)
                 name: str = item.get("name")
                 id_: str = item.get("id")
                 if id_ and name:

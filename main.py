@@ -22,7 +22,6 @@ def main():
         move_translation_files()
     if not config["replaceFilesEnabled"]:
         return
-    # Tk().withdraw()
 
     if target_dir:
         start_time = time.time()
