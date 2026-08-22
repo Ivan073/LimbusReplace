@@ -4,8 +4,8 @@ import re
 from concurrent.futures import ThreadPoolExecutor
 from typing import cast
 
-from globals import compiled_patterns, config, skill_tag_ids, target_dir
-from json_structure import JSONType, Match, ReplaceRule
+from src.globals import compiled_patterns, config, skill_tag_ids, target_dir
+from src.models.json_structure import JSONType, Match, ReplaceRule
 
 
 def split_sentences(data: str):
@@ -115,7 +115,7 @@ def invert_map_with_warnings(ordered_status_names: list[tuple[str, str]]):
 
 def add_status_regex(replace_config: list[ReplaceRule], status_files: list[str]):
     """Replace status names and ids with linked sprites"""
-    from statuses import status_id_name_map
+    from src.statuses import status_id_name_map
 
     ordered_status_names = sorted(
         status_id_name_map.items(), key=lambda x: len(x[0]), reverse=True

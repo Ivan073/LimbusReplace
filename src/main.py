@@ -1,10 +1,16 @@
+import sys
 import time
+from pathlib import Path
 
-from file_list import process_file_list
-from globals import config, target_dir
-from move_files import move_translation_files
-from replace import process_replaces
-from statuses import find_statuses
+# Добавляем корень проекта в sys.path
+project_root = Path(__file__).parent.parent
+sys.path.insert(0, str(project_root))
+
+from src.file_list import process_file_list
+from src.globals import config, target_dir
+from src.move_files import move_translation_files
+from src.replace import process_replaces
+from src.statuses import find_statuses
 
 
 def process_files():

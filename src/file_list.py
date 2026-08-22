@@ -1,8 +1,8 @@
 import json
 import os
 
-from globals import file_list_path, skill_tag_ids, target_dir
-from json_structure import SkillTag
+from src.globals import file_list_path, skill_tag_ids, target_dir
+from src.models.json_structure import SkillTag
 
 
 def process_file_list():

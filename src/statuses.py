@@ -2,8 +2,8 @@ import json
 import os
 from typing import Any, cast
 
-from globals import config, status_id_name_map, target_dir
-from json_structure import StatusItem
+from src.globals import config, status_id_name_map, target_dir
+from src.models.json_structure import StatusItem
 
 
 def find_statuses():
