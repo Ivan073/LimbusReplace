@@ -1,6 +1,8 @@
 import json
+import sys
 from pathlib import Path
 from re import Pattern
+from tkinter import filedialog
 
 from src.models.json_structure import Config
 
@@ -26,12 +28,14 @@ skill_tag_ids: list[
 
 def init_globals():
     global data_dir, config, source_dir, target_dir, file_list_path
-    from tkinter import filedialog
 
     config = load_config()
 
-    # Get base directory from user
-    data_dir = Path(filedialog.askdirectory())
+    # Get base directory
+    selected_dir = filedialog.askdirectory()
+    if not selected_dir:
+        sys.exit(0)
+    data_dir = Path(selected_dir)
 
     # Build paths using pathlib
     source_dir = (
