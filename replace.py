@@ -2,6 +2,7 @@ import json
 import os
 import re
 from concurrent.futures import ThreadPoolExecutor
+from typing import cast
 
 from globals import compiled_patterns, config, skill_tag_ids, target_dir
 from json_structure import JSONType, Match, ReplaceRule
@@ -70,7 +71,7 @@ def replace_in_string(data: str, replace_config: ReplaceRule):
                         f"to: {to_pattern}\n"
                     )
             else:
-                sentence = sentence.replace(from_pattern, to_pattern)
+                sentence = sentence.replace(from_pattern, cast(str, to_pattern))
 
         processed_sentences.append(sentence)
 
@@ -171,7 +172,7 @@ def process_replaces(status_files: list[str]):
     if config["statuses"]["enabled"]:
         add_status_regex(replace_config, status_files)
 
-    total_files = sum(map(lambda x: x.endswith(".json"), os.listdir(target_dir)))
+    total_files = sum(x.endswith(".json") for x in os.listdir(target_dir))
     processed_count = 0
 
     # Pattern compilation for performance boost
@@ -201,4 +202,4 @@ def process_replaces(status_files: list[str]):
                 print(f"{filename} processed ({processed_count}/{total_files})")
 
             except Exception as e:
-                print(f"Error in file {filename}: {str(e)}")
+                print(f"Error in file {filename}: {e!s}")

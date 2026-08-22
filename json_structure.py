@@ -1,21 +1,29 @@
-from re import Match
-from typing import Any, NotRequired, TypedDict, Union
 from collections.abc import Callable
-from typing import NotRequired
+from re import Match
+from typing import Any, Literal, NotRequired, TypedDict
 
 # === COMMON TYPE FOR UNKNOWN JSON ===
-JSONType = Union[dict[str, Any], list[Any], str, int, float, bool, None]
+JSONType = dict[str, Any] | list[Any] | str | int | float | bool | None
 
 
 # === CONFIG ===
-ReplaceChange = TypedDict(
-    "ReplaceChange",
+_ReplaceChangeRegex = TypedDict(
+    "_ReplaceChangeRegex",
     {
         "from": str,
         "to": str | Callable[[Match[str]], str],
-        "regex": NotRequired[bool],
+        "regex": Literal[True],
     },
 )
+_ReplaceChangePlain = TypedDict(
+    "_ReplaceChangePlain",
+    {
+        "from": str,
+        "to": str,
+        "regex": NotRequired[Literal[False]],
+    },
+)
+ReplaceChange = _ReplaceChangeRegex | _ReplaceChangePlain
 
 ReplaceRule = TypedDict(
     "ReplaceRule",
