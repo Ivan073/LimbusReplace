@@ -1,6 +1,7 @@
 import json
 import os
-from globals import file_list_path, target_dir, skill_tag_ids
+
+from globals import file_list_path, skill_tag_ids, target_dir
 from json_structure import SkillTag
 
 

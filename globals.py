@@ -1,5 +1,6 @@
 import json
 from re import Pattern
+
 from json_structure import Config
 
 data_dir: str = ""  # LimbusCompany_Data path

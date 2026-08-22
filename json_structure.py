@@ -1,5 +1,7 @@
 from re import Match
-from typing import Any, Callable, TypedDict, NotRequired, Union
+from typing import Any, NotRequired, TypedDict, Union
+from collections.abc import Callable
+from typing import NotRequired
 
 # === COMMON TYPE FOR UNKNOWN JSON ===
 JSONType = Union[dict[str, Any], list[Any], str, int, float, bool, None]

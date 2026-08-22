@@ -1,7 +1,7 @@
 import os
 import shutil
 
-from globals import source_dir, target_dir, config
+from globals import config, source_dir, target_dir
 
 
 def move_fonts():

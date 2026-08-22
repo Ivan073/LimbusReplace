@@ -1,7 +1,8 @@
 import json
 import os
 from typing import Any, cast
-from globals import config, target_dir, status_id_name_map
+
+from globals import config, status_id_name_map, target_dir
 from json_structure import StatusItem
 
 
@@ -52,7 +53,7 @@ def find_statuses():
                 json.dump(data, f, indent=4, ensure_ascii=False)
 
         except Exception as e:
-            print(f"File error in {filename}: {str(e)}")
+            print(f"File error in {filename}: {e!s}")
 
     return processed_files
 

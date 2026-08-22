@@ -13,6 +13,7 @@ def process_files():
     if config["statuses"]["enabled"]:
         print("Status collection...")
         processed_files = find_statuses()
+        print(processed_files)
         print("Statuses collected")
     process_replaces(processed_files)
 

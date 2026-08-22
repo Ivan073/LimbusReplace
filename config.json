@@ -9,7 +9,7 @@
     "enabled": true,
     "fields": {
       "required": ["id", "name"],
-      "optional": ["summary", "undefined", "desc"]
+      "optional": ["summary", "undefined", "desc", "flavor"]
     },
     "ignoredFiles": ["SkillTag.json", "AttributeText.json", "EgoGiftCategory.json"]
   },

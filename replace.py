@@ -2,7 +2,8 @@ import json
 import os
 import re
 from concurrent.futures import ThreadPoolExecutor
-from globals import compiled_patterns, config, target_dir, skill_tag_ids
+
+from globals import compiled_patterns, config, skill_tag_ids, target_dir
 from json_structure import JSONType, Match, ReplaceRule
 
 
