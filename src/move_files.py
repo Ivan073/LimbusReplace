@@ -18,12 +18,11 @@ def move_fonts():
     (font_target_dir / "Title").mkdir(parents=True, exist_ok=True)
 
     # Source: resources/Font relative to the project root
-    # __file__ is in src/, so we go up two levels to reach project root
     project_root = Path(__file__).resolve().parent.parent
     src = project_root / "resources" / "Font"
 
     # Copy the directory tree
-    shutil.copytree(src, font_target_dir)
+    shutil.copytree(src, font_target_dir, dirs_exist_ok=True)
 
 
 def copy_source_files():
