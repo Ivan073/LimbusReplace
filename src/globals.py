@@ -1,12 +1,13 @@
 import json
+from pathlib import Path
 from re import Pattern
 
 from src.models.json_structure import Config
 
-data_dir: str = ""  # LimbusCompany_Data path
-source_dir: str = ""  # Path to original translation
-target_dir: str = ""  # Path to resulting translation
-file_list_path: str = ""  # Path to RemoteLocalizeFileList.json
+data_dir: Path = Path()  # LimbusCompany_Data path
+source_dir: Path = Path()  # Path to original translation
+target_dir: Path = Path()  # Path to resulting translation
+file_list_path: Path = Path()  # Path to RemoteLocalizeFileList.json
 
 config = None  # Config file json
 
@@ -28,15 +29,25 @@ def init_globals():
     from tkinter import filedialog
 
     config = load_config()
-    data_dir = filedialog.askdirectory()
+
+    # Get base directory from user
+    data_dir = Path(filedialog.askdirectory())
+
+    # Build paths using pathlib
     source_dir = (
         data_dir
-        + "/Assets/Resources_moved/Localize/"
-        + config["moveFiles"]["sourceTranslation"]
+        / "Assets"
+        / "Resources_moved"
+        / "Localize"
+        / config["moveFiles"]["sourceTranslation"]
     )
-    target_dir = data_dir + "/Lang/" + config["moveFiles"]["translationName"]
+    target_dir = data_dir / "Lang" / config["moveFiles"]["translationName"]
     file_list_path = (
-        data_dir + "/Assets/Resources_moved/Localize/RemoteLocalizeFileList.json"
+        data_dir
+        / "Assets"
+        / "Resources_moved"
+        / "Localize"
+        / "RemoteLocalizeFileList.json"
     )
 
 

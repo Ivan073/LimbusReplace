@@ -1,24 +1,26 @@
 import os
 import shutil
+from pathlib import Path
 
 from src.globals import config, source_dir, target_dir
 
 
 def move_fonts():
     # Path to the target directory for fonts
-    font_target_dir = os.path.join(target_dir, "Font")
-
-    # Create necessary subdirectories
-    os.makedirs(os.path.join(font_target_dir, "Context"), exist_ok=True)
-    os.makedirs(os.path.join(font_target_dir, "Title"), exist_ok=True)
+    font_target_dir = Path(target_dir) / "Font"
 
     # Remove the folder if it already exists
-    if os.path.exists(font_target_dir):
+    if font_target_dir.exists():
         shutil.rmtree(font_target_dir)
 
+    # Create necessary subdirectories
+    (font_target_dir / "Context").mkdir(parents=True, exist_ok=True)
+    (font_target_dir / "Title").mkdir(parents=True, exist_ok=True)
+
     # Source: resources/Font relative to the project root
-    project_root = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
-    src = os.path.join(project_root, "resources", "Font")
+    # __file__ is in src/, so we go up two levels to reach project root
+    project_root = Path(__file__).resolve().parent.parent
+    src = project_root / "resources" / "Font"
 
     # Copy the directory tree
     shutil.copytree(src, font_target_dir)
