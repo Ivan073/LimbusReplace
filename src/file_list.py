@@ -16,7 +16,7 @@ def process_file_list():
     skill_tag_list: list[str] = data["skillTag"]
 
     for filename in skill_tag_list:
-        path = target_dir / filename / ".json"
+        path = target_dir / (filename + ".json")
 
         with open(path, "r", encoding="utf-8-sig") as f:
             data = json.load(f)
