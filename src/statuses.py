@@ -64,10 +64,10 @@ def add_statuses(data: Any):
         return data
 
     data_list = cast(list[Any], data_list)
-    for item in data_list:
-        if not isinstance(item, dict):
-            continue
-        item = cast(StatusItem, item)
+    status_item_list = [
+        cast(StatusItem, item) for item in data_list if isinstance(item, dict)
+    ]
+    for item in status_item_list:
         name = item.get("name")
         id_ = item.get("id")
         if id_ and name:
