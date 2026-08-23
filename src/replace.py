@@ -31,7 +31,7 @@ def split_sentences(data: str):
 
 def replace_in_string(data: str, replace_config: ReplaceRule):
     """Replacement via regex in acquired strings"""
-    skillTagPersistence: bool = config["skillTagPersistence"]
+    skill_tag_persistence: bool = config["skillTagPersistence"]
     sentences = split_sentences(data)
     processed_sentences: list[str] = []
     skill_tag_regex = re.compile(
@@ -40,7 +40,7 @@ def replace_in_string(data: str, replace_config: ReplaceRule):
 
     for sentence in sentences:
         skill_tag_match = (
-            skill_tag_regex.match(sentence) if skillTagPersistence else None
+            skill_tag_regex.match(sentence) if skill_tag_persistence else None
         )
 
         for change in replace_config.get("changes", []):
@@ -81,7 +81,7 @@ def replace_in_string(data: str, replace_config: ReplaceRule):
 def recursive_replace(data: JSONType, replace_list: list[ReplaceRule]):
     """Recursive replace in JSON fields"""
     if isinstance(data, dict):
-        for key in list(data.keys()):
+        for key in data:
             for replace_config in replace_list:
                 if key in replace_config["fields"] and isinstance(data[key], str):
                     data[key] = replace_in_string(data[key], replace_config)
@@ -183,7 +183,7 @@ def process_replaces(status_files: list[str]):
 
     for filename in os.listdir(target_dir):
         if filename.endswith(".json"):
-            path = os.path.join(target_dir, filename)
+            path = target_dir / filename
             try:
                 with open(path, "r", encoding="utf-8-sig") as f:
                     data = json.load(f)

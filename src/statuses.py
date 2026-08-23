@@ -17,7 +17,7 @@ def find_statuses():
         if not filename.endswith(".json") or filename in ignored_files:
             continue
 
-        path = os.path.join(target_dir, filename)
+        path = target_dir / filename
         try:
             with open(path, "r", encoding="utf-8-sig") as f:
                 data = json.load(f)
@@ -32,9 +32,8 @@ def find_statuses():
                         if not isinstance(item.get(field), str):
                             skip_preprocessing = True
                     for field in optional_fields:
-                        if item.get(field) is not None and not isinstance(
-                            item.get(field), str
-                        ):
+                        field_value = item.get(field)
+                        if field_value is not None and not isinstance(field_value, str):
                             skip_preprocessing = True
                     if not set(required_fields).intersection(
                         set(item.keys())
@@ -61,13 +60,16 @@ def find_statuses():
 def add_statuses(data: Any):
     """Add statuses to dictionary from json"""
     data_list = data.get("dataList")
-    if isinstance(data_list, list):
-        data_list = cast(list[Any], data_list)
-        for item in data_list:
-            if isinstance(item, dict):
-                item = cast(StatusItem, item)
-                name: str = item.get("name")
-                id_: str = item.get("id")
-                if id_ and name:
-                    status_id_name_map[id_] = name
+    if not isinstance(data_list, list):
+        return data
+
+    data_list = cast(list[Any], data_list)
+    for item in data_list:
+        if not isinstance(item, dict):
+            continue
+        item = cast(StatusItem, item)
+        name = item.get("name")
+        id_ = item.get("id")
+        if id_ and name:
+            status_id_name_map[id_] = name
     return data

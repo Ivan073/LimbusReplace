@@ -27,31 +27,28 @@ def move_fonts():
 
 def copy_source_files():
     """Recursive file copy from source to target"""
+    prefix = config["moveFiles"]["sourceTranslation"].upper() + "_"
     for root, _, files in os.walk(source_dir):
         relative_path = os.path.relpath(root, source_dir)
 
-        target_path = os.path.join(target_dir, relative_path)
+        target_path = target_dir / relative_path
         os.makedirs(target_path, exist_ok=True)
 
-        prefix = config["moveFiles"]["sourceTranslation"].upper() + "_"
-
         for file in files:
-            if file.endswith(".json") and file.startswith(prefix):
-                new_filename = file[len(prefix) :]
-            else:
-                new_filename = file
+            should_remove_prefix = file.startswith(prefix) and file.endswith(".json")
+            new_filename = file[len(prefix) :] if should_remove_prefix else file
 
             source_file_path = os.path.join(root, file)
-            target_file_path = os.path.join(target_path, new_filename)
+            target_file_path = target_path / new_filename
 
-            try:
-                shutil.copy2(source_file_path, target_file_path)
-            except Exception as e:
-                print(f"Copy error in {file}: {e}")
+            shutil.copy2(source_file_path, target_file_path)
 
     print("Copy finished!")
 
 
 def move_translation_files():
-    copy_source_files()
-    move_fonts()
+    try:
+        copy_source_files()
+        move_fonts()
+    except Exception:
+        print("Failed to copy files")
