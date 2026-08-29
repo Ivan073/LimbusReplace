@@ -1,6 +1,6 @@
 import json
 
-from src.globals import file_list, skill_tag_ids, target_dir
+from data_collection.globals import file_list, skill_tag_ids, target_dir
 from src.models.json_structure import SkillTag
 
 

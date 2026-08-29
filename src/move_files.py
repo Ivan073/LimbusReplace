@@ -2,7 +2,7 @@ import os
 import shutil
 from pathlib import Path
 
-from src.globals import config, source_dir, target_dir
+from data_collection.globals import config, source_dir, target_dir
 
 
 def move_fonts():

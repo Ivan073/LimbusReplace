@@ -4,31 +4,11 @@ import re
 from concurrent.futures import ThreadPoolExecutor
 from typing import cast
 
-from file_list import file_list
-from src.globals import compiled_patterns, config, skill_tag_ids, target_dir
+from data_collection.file_list import file_list
+from data_collection.globals import compiled_patterns, config, skill_tag_ids, target_dir
 from src.models.json_structure import JSONType, Match, ReplaceRule
-from utils.helpers import collect_files
-
-
-def split_sentences(data: str):
-    """Split string into sentences"""
-    # Split by ". "
-    sentences = re.split(r"(?<=\.) ", data)
-    sentences_with_space = [
-        sentence + (" " if i < len(sentences) - 1 else "")
-        for i, sentence in enumerate(sentences)
-    ]
-    # Split by \n
-    final_result: list[str] = []
-    for sentence in sentences_with_space:
-        split_by_newline = sentence.split("\n")
-        for i, part in enumerate(split_by_newline):
-            if "\n" in sentence and i < len(split_by_newline) - 1:
-                final_result.append(part + "\n")
-            else:
-                final_result.append(part)
-
-    return final_result
+from utils.files import collect_files
+from utils.parsing import split_sentences
 
 
 def replace_in_string(data: str, replace_config: ReplaceRule):
@@ -117,7 +97,7 @@ def invert_map_with_warnings(ordered_status_names: list[tuple[str, str]]):
 
 def add_status_regex(replace_config: list[ReplaceRule], status_files: list[str]):
     """Replace status names and ids with linked sprites"""
-    from src.statuses import status_id_name_map
+    from data_collection.statuses import status_id_name_map
 
     ordered_status_names = sorted(
         status_id_name_map.items(), key=lambda x: len(x[0]), reverse=True
