@@ -1,10 +1,4 @@
-from typing import Literal
-
-from models.json_structure import FileList
-
-FileListKey = Literal[
-    "skill", "passive", "buf", "buffAbilities", "keyword", "skillTag", "egoGifts"
-]
+from models.json_structure import FileList, FileListKey
 
 
 def collect_files(file_list: FileList, *keys: FileListKey) -> list[str]:

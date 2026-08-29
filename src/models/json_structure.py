@@ -66,6 +66,17 @@ class FileList(TypedDict):
     egoGifts: list[str]
 
 
+FileListKey = Literal[
+    "skill",
+    "passive",
+    "buf",
+    "buffAbilities",
+    "keyword",
+    "skillTag",
+    "egoGifts",
+]
+
+
 # === SkillTag.json ===
 class SkillTag(TypedDict):
     id: str
