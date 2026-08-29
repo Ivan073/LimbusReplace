@@ -14,9 +14,8 @@ def split_sentences(data: str):
     for sentence in sentences_with_space:
         split_by_newline = sentence.split("\n")
         for i, part in enumerate(split_by_newline):
-            if "\n" in sentence and i < len(split_by_newline) - 1:
-                final_result.append(part + "\n")
-            else:
-                final_result.append(part)
+            needs_newline = "\n" in sentence and i < len(split_by_newline) - 1
+            part = part + "\n" if needs_newline else part
+            final_result.append(part)
 
     return final_result
