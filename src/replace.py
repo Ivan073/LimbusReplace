@@ -193,8 +193,11 @@ def process_replaces(status_files: list[str]):
             with open(path, "w", encoding="utf-8-sig") as f:
                 json.dump(modified_data, f, indent=4, ensure_ascii=False)
 
-            processed_count += 1
-            print(f"{filename} processed ({processed_count}/{file_count})")
+            print(f"{filename} processed ({processed_count + 1}/{file_count})")
 
+        except FileNotFoundError:
+            print(f"{filename} not found ({processed_count + 1}/{file_count})")
         except Exception as e:
             print(f"Error in file {filename}: {e!s}")
+        finally:
+            processed_count += 1
