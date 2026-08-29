@@ -4,13 +4,18 @@ from pathlib import Path
 from re import Pattern
 from tkinter import filedialog
 
-from src.models.json_structure import Config
+from src.models.json_structure import Config, FileList
+from utils.typedDictDefault import create_default
 
+# ===Folder navigation===
 data_dir: Path = Path()  # LimbusCompany_Data path
 source_dir: Path = Path()  # Path to original translation
 target_dir: Path = Path()  # Path to resulting translation
-file_list_path: Path = Path()  # Path to RemoteLocalizeFileList.json
+file_list: FileList = create_default(
+    FileList
+)  # File with categorization of other files
 
+# ===Reusable objects===
 config = None  # Config file json
 
 compiled_patterns: dict[
@@ -27,7 +32,7 @@ skill_tag_ids: list[
 
 
 def init_globals():
-    global data_dir, config, source_dir, target_dir, file_list_path
+    global data_dir, config, source_dir, target_dir, file_list
 
     config = load_config()
 
@@ -53,6 +58,9 @@ def init_globals():
         / "Localize"
         / "RemoteLocalizeFileList.json"
     )
+
+    with open(file_list_path, "r", encoding="utf-8-sig") as f:
+        file_list = json.load(f)
 
 
 def load_config() -> Config:

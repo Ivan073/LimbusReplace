@@ -4,8 +4,10 @@ import re
 from concurrent.futures import ThreadPoolExecutor
 from typing import cast
 
+from file_list import file_list
 from src.globals import compiled_patterns, config, skill_tag_ids, target_dir
 from src.models.json_structure import JSONType, Match, ReplaceRule
+from utils.helpers import collect_files
 
 
 def split_sentences(data: str):
@@ -166,13 +168,29 @@ def add_status_regex(replace_config: list[ReplaceRule], status_files: list[str])
     replace_config.append(status_id_replace)
 
 
+def get_replacement_files():
+    if config["limitedDirectories"]:
+        return collect_files(
+            file_list,
+            "skill",
+            "passive",
+            "buf",
+            "buffAbilities",
+            "keyword",
+            "egoGifts",
+        )
+    else:
+        return list(filter(lambda x: x.endswith(".json"), os.listdir(target_dir)))
+
+
 def process_replaces(status_files: list[str]):
     replace_config = config["replace"]
 
     if config["statuses"]["enabled"]:
         add_status_regex(replace_config, status_files)
 
-    total_files = sum(x.endswith(".json") for x in os.listdir(target_dir))
+    files = get_replacement_files()
+    file_count = len(files)
     processed_count = 0
 
     # Pattern compilation for performance boost
@@ -181,25 +199,22 @@ def process_replaces(status_files: list[str]):
             if change.get("regex", False) and change["from"] not in compiled_patterns:
                 compiled_patterns[change["from"]] = re.compile(rf"{change['from']}")
 
-    for filename in os.listdir(target_dir):
-        if filename.endswith(".json"):
-            path = target_dir / filename
-            try:
-                with open(path, "r", encoding="utf-8-sig") as f:
-                    data = json.load(f)
+    for filename in files:
+        path = target_dir / filename
+        try:
+            with open(path, "r", encoding="utf-8-sig") as f:
+                data = json.load(f)
 
-                active_replaces = [
-                    r
-                    for r in replace_config
-                    if filename not in r.get("ignoredFiles", [])
-                ]
-                modified_data = recursive_replace(data, active_replaces)
+            active_replaces = [
+                r for r in replace_config if filename not in r.get("ignoredFiles", [])
+            ]
+            modified_data = recursive_replace(data, active_replaces)
 
-                with open(path, "w", encoding="utf-8-sig") as f:
-                    json.dump(modified_data, f, indent=4, ensure_ascii=False)
+            with open(path, "w", encoding="utf-8-sig") as f:
+                json.dump(modified_data, f, indent=4, ensure_ascii=False)
 
-                processed_count += 1
-                print(f"{filename} processed ({processed_count}/{total_files})")
+            processed_count += 1
+            print(f"{filename} processed ({processed_count}/{file_count})")
 
-            except Exception as e:
-                print(f"Error in file {filename}: {e!s}")
+        except Exception as e:
+            print(f"Error in file {filename}: {e!s}")

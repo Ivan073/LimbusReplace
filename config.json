@@ -7,16 +7,19 @@
   "replaceFilesEnabled": true,
   "statuses": {
     "enabled": true,
-    "fields": {
-      "required": ["id", "name"],
-      "optional": ["summary", "undefined", "desc", "flavor"]
-    },
-    "ignoredFiles": ["SkillTag.json", "AttributeText.json", "EgoGiftCategory.json"]
+    "ignoredFiles": [
+      "SkillTag.json",
+      "AttributeText.json",
+      "EgoGiftCategory.json"
+    ]
   },
   "skillTagPersistence": true,
-  "replace":[
+  "limitedDirectories": true,
+  "replace": [
     {
-      "fields": [ "name" ],
+      "fields": [
+        "name"
+      ],
       "changes": [
         {
           "from": "On ",
@@ -25,7 +28,12 @@
       ]
     },
     {
-      "fields": [ "desc", "summary", "lowMoraleDescription", "panicDescription" ],
+      "fields": [
+        "desc",
+        "summary",
+        "lowMoraleDescription",
+        "panicDescription"
+      ],
       "changes": [
         {
           "from": "’",
@@ -380,6 +388,6 @@
           "to": "Turn start:"
         }
       ]
-    }]
+    }
+  ]
 }
-

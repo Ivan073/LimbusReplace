@@ -35,14 +35,8 @@ ReplaceRule = TypedDict(
 )
 
 
-class StatusFields(TypedDict):
-    required: list[str]
-    optional: list[str]
-
-
 class StatusConfig(TypedDict):
     enabled: bool
-    fields: StatusFields
     ignoredFiles: list[str]
 
 
@@ -57,7 +51,19 @@ class Config(TypedDict):
     replaceFilesEnabled: bool
     statuses: StatusConfig
     skillTagPersistence: bool
+    limitedDirectories: bool
     replace: list[ReplaceRule]
+
+
+# === RemoteLocalizeFileList.json (meaningful part)===
+class FileList(TypedDict):
+    skill: list[str]
+    passive: list[str]
+    buf: list[str]
+    buffAbilities: list[str]
+    keyword: list[str]
+    skillTag: list[str]
+    egoGifts: list[str]
 
 
 # === SkillTag.json ===

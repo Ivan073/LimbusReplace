@@ -42,16 +42,6 @@ _**"statuses"**_
         Activates the collection and replacement of status objects within files.
         Creates regex for "replaceFilesEnabled", so it needs to be enabled.
 
-    "fields"
-        Fields to determine based on josn structure if it is description of statuses.
-        May be unprecise and rudimentary if RemoteLocalizeFileList.json works
-
-        "required"
-            Lists the mandatory fields an object must have to be considered a status. 
-
-        "optional"
-            Lists additional fields that are allowed but not required for a status object.
-
     "ignoredFiles"
         Specifies files whose contents will not be checked for statuses.
 
@@ -59,6 +49,12 @@ _**"skillTagPersistence"**_
 
     Determines whether the first words in square brackets (e.g., [On kill]) is treated as a skill tag.
     If true, such tags will not be affected by replacement patterns below and will stay in the beginning of the line.
+
+
+_**"skillTagPersistence"**_
+
+    Determines whether the replacements applied to only gameplay related strings. 
+    If false, applied to all files.
 
 _**"replace"**_
 

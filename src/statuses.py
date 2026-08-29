@@ -1,20 +1,21 @@
 import json
-import os
 from typing import Any, cast
 
+from file_list import file_list
 from src.globals import config, status_id_name_map, target_dir
 from src.models.json_structure import StatusItem
+from utils.helpers import collect_files
 
 
 def find_statuses():
     """Find files that supposed to contain statuses according to config"""
     ignored_files = config["statuses"]["ignoredFiles"]
     processed_files: list[str] = []
-    required_fields = config["statuses"]["fields"]["required"]
-    optional_fields = config["statuses"]["fields"]["optional"]
 
-    for filename in os.listdir(target_dir):
-        if not filename.endswith(".json") or filename in ignored_files:
+    status_files = collect_files(file_list, "keyword", "buf")
+
+    for filename in status_files:
+        if filename in ignored_files:
             continue
 
         path = target_dir / filename
@@ -22,37 +23,14 @@ def find_statuses():
             with open(path, "r", encoding="utf-8-sig") as f:
                 data = json.load(f)
 
-            data_list = data.get("dataList")
-            skip_preprocessing = False
-            if isinstance(data_list, list) and data_list:
-                data_list = cast(list[dict[str, Any]], data_list)
-                for item in data_list:
-                    # TODO: Right now keyword files should have only string fields (this may change in future)
-                    for field in required_fields:
-                        if not isinstance(item.get(field), str):
-                            skip_preprocessing = True
-                    for field in optional_fields:
-                        field_value = item.get(field)
-                        if field_value is not None and not isinstance(field_value, str):
-                            skip_preprocessing = True
-                    if not set(required_fields).intersection(
-                        set(item.keys())
-                    ) or not set(item.keys()).issubset(
-                        set(required_fields + optional_fields)
-                    ):
-                        skip_preprocessing = True
-            else:
-                skip_preprocessing = True
-
-            if not skip_preprocessing:
-                add_statuses(data)
-                processed_files.append(filename)
+            add_statuses(data)
+            processed_files.append(filename)
 
             with open(path, "w", encoding="utf-8-sig") as f:
                 json.dump(data, f, indent=4, ensure_ascii=False)
 
         except Exception as e:
-            print(f"File error in {filename}: {e!s}")
+            print(f"Status file error in {filename}: {e!s}")
 
     return processed_files
 

@@ -2,7 +2,6 @@ import sys
 import time
 from pathlib import Path
 
-# Добавляем корень проекта в sys.path
 project_root = Path(__file__).parent.parent
 sys.path.insert(0, str(project_root))
 
@@ -19,7 +18,6 @@ def process_files():
     if config["statuses"]["enabled"]:
         print("Status collection...")
         processed_files = find_statuses()
-        print(processed_files)
         print("Statuses collected")
     process_replaces(processed_files)
 
