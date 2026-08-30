@@ -344,12 +344,12 @@
         },
         {
           "regex": true,
-          "from": "(?:1 )?(ally|allies) (?:with )?(?:the )?(most|highest|lowest|least) (?:current )?(Max )?(HP|SP)",
+          "from": "(?:1 )?(ally|allies) (?:with |that has )?(?:the )?(most|highest|lowest|least) (?:current )?(Max )?(HP|SP)",
           "to": "\\2 \\3\\4 \\1"
         },
         {
           "regex": true,
-          "from": "(?:1 )?(ally|allies) (?:with )?(?:the )?(slowest|fastest) Speed",
+          "from": "(?:1 )?(ally|allies) (?:with |that has )?(?:the )?(slowest|fastest) Speed",
           "to": "\\2 \\1"
         },
         {
