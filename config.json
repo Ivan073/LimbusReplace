@@ -121,7 +121,7 @@
         },
         {
           "regex": true,
-          "from": "If target has ([^,\n:]+)[,:]",
+          "from": "If target has ([^,\n:→]+)[,:]",
           "to": "Target: \\1 →"
         },
         {
@@ -136,7 +136,7 @@
         },
         {
           "regex": true,
-          "from": "([^,\n:]+) to targets with ([^,\n:]+)",
+          "from": "([^,\n:→]+) to targets with ([^,\n:→]+)",
           "to": "Target: \\2 → \\1"
         },
         {
@@ -146,17 +146,17 @@
         },
         {
           "regex": true,
-          "from": "([^,\n:]+) per ([^,\n:]+) on target(\\))?",
+          "from": "([^,\n:→]+) per ([^,\n:→]+) on target(\\))?",
           "to": "Target: per \\2\\3 → \\1"
         },
         {
           "regex": true,
-          "from": "([^,\n:]+) for every ([^,\n:]+) or for every ([^,\n:]+) on target",
+          "from": "([^,\n:→]+) for every ([^,\n:→]+) or for every ([^,\n:→]+) on target",
           "to": "Self: per \\2 or Target: per \\3 → \\1"
         },
         {
           "regex": true,
-          "from": "([^,\n:]+) for every ([^,\n:]+) on target(\\))?",
+          "from": "([^,\n:→]+) for every ([^,\n:→]+) on target(\\))?",
           "to": "Target: per \\2\\3 → \\1"
         },
         {
@@ -171,22 +171,22 @@
         },
         {
           "regex": true,
-          "from": "([^,\n:]+) for every ([^,\n:]+) on self",
+          "from": "([^,\n:→]+) for every ([^,\n:→]+) on self",
           "to": "Self: per \\2 → \\1"
         },
         {
           "regex": true,
-          "from": "([^,\n:]+) for (?:<style=\"highlight\">)?every(?:</style>)? ([^,\n:]+) on self",
+          "from": "([^,\n:→]+) for (?:<style=\"highlight\">)?every(?:</style>)? ([^,\n:→]+) on self",
           "to": "Self: per \\2 → \\1"
         },
         {
           "regex": true,
-          "from": "For every ([^,\n:]+) on self[,:]",
+          "from": "For every ([^,\n:→]+) on self[,:]",
           "to": "Self: per \\1 →"
         },
         {
           "regex": true,
-          "from": "([^,\n:]+) for every ([^,\n:]+) \\(max (\\d+)\\)",
+          "from": "([^,\n:→]+) for every ([^,\n:→]+) \\(max (\\d+)\\)",
           "to": "Self: per \\2 → \\1 (max \\3)"
         },
         {
@@ -220,22 +220,22 @@
         },
         {
           "regex": true,
-          "from": "If this unit has ([^,\n:]+)[,:]",
+          "from": "If this unit has ([^,\n:→]+)[,:]",
           "to": "Self: \\1 →"
         },
         {
           "regex": true,
-          "from": "If this unit does not have ([^,\n:]+)[,:]",
+          "from": "If this unit does not have ([^,\n:→]+)[,:]",
           "to": "Self: no \\1 →"
         },
         {
           "regex": true,
-          "from": "If user has ([^,\n:]+)[,:]",
+          "from": "If user has ([^,\n:→]+)[,:]",
           "to": "Self: \\1 →"
         },
         {
           "regex": true,
-          "from": "At (\\d+)\\+ ([^,\n:]+)[,:]",
+          "from": "At (\\d+)\\+ ([^,\n:→]+)[,:]",
           "to": "Self: \\1+ \\2 →"
         },
         {
@@ -309,7 +309,7 @@
         },
         {
           "regex": true,
-          "from": "([^,\n:]+) at (\\d+)\\+ Speed",
+          "from": "([^,\n:→]+) at (\\d+)\\+ Speed",
           "to": "Speed >= \\2 → \\1"
         },
         {
@@ -324,12 +324,12 @@
         },
         {
           "regex": true,
-          "from": "Spend ([^,\n:]+) to gain",
+          "from": "Spend ([^,\n:→]+) to gain",
           "to": "Spend \\1 →"
         },
         {
           "regex": true,
-          "from": "Spend ([^,\n:]+) to turn this",
+          "from": "Spend ([^,\n:→]+) to turn this",
           "to": "Spend \\1 → turn"
         },
         {
@@ -377,7 +377,7 @@
         },
         {
           "regex": true,
-          "from": "([^,\n:]+) chance to Reuse Coin(?: once)?",
+          "from": "([^,\n:→]+) chance to Reuse Coin(?: once)?",
           "to": "Reuse Coin chance: \\1"
         },
         {
@@ -411,7 +411,7 @@
         },
         {
           "regex": true,
-          "from": "'Unique ([^,\n:]+)' as ([^,\n:]+)",
+          "from": "'Unique ([^,\n:→]+)' as ([^,\n:→]+)",
           "to": "Has 'Unique \\1'"
         },
         {
