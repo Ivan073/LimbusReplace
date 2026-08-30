@@ -215,7 +215,7 @@
         },
         {
           "regex": true,
-          "from": "([^,\\n:]+) when below (\\S+)(%)? (HP|SP)",
+          "from": "([^,\\n:]+?) when below (\\S+)(%)? (HP|SP)",
           "to": "Self: \\4 < \\2\\3 → \\1"
         },
         {
@@ -240,7 +240,7 @@
         },
         {
           "regex": true,
-          "from": "(?:When )?[Aa]t less than (\\S+) ([^,\\n:]+)[,:]",
+          "from": "(?:When )?[Aa]t less than (\\S+) ([^,\\n:]+?)[,:]",
           "to": "Self: \\2 < \\1 →"
         },
         {
@@ -334,12 +334,12 @@
         },
         {
           "regex": true,
-          "from": "(?:Consume|Spend) ([^,\\n:]+)(?: on self)? to(?: gain)?",
+          "from": "(?:Consume|Spend) ([^,\\n:]+?)(?: on self)? to(?: gain)?",
           "to": "Self: Spend \\1 →"
         },
         {
           "regex": true,
-          "from": "(?:consume|Spend) ([^,\\n:]+) on target to(?: gain)?",
+          "from": "(?:consume|Spend) ([^,\\n:]+?) on target to(?: gain)?",
           "to": "Target: Spend \\1 →"
         },
         {
