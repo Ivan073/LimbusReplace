@@ -8,8 +8,8 @@ sys.path.insert(0, str(project_root))
 from data_collection.file_list import process_file_list
 from data_collection.globals import config, target_dir
 from data_collection.statuses import find_statuses
+from replacement.replace import process_replaces
 from src.move_files import move_translation_files
-from src.replace import process_replaces
 
 
 def process_files():
