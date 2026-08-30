@@ -40,9 +40,12 @@
       "UnlockBuff_Rien3": "UnlockBuff_3",
       "DelusionGregBigBird": "DelusionHohenheimBigBird",
       "LanternGregBigBird": "LanternHohenheimBigBird",
+      "SelfChargeAlly": "SelfCharge",
       "ScratchesHurtID": "ScratchesHurt",
       "TibiaPersonality": "MineTheRings",
       "LivingSpecimenPersonality": "LivingSpecimenTheRings",
+      "BearClawWoundAlly": "BearClawWound",
+      "EagleClawWoundAlly": "EagleClawWound",
       "VengeanceBookHeathcliff": "VengeanceBookSinclair"
     }
   },
