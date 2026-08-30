@@ -45,6 +45,10 @@ _**"statuses"**_
     "ignoredFiles"
         Specifies files whose contents will not be checked for statuses.
 
+    "spriteFixes"
+        Dictionary to manually resolve cases when status id does not match sprite id,
+        which results in incorrect representation 
+
 _**"skillTagPersistence"**_
 
     Determines whether the first words in square brackets (e.g., [On kill]) is treated as a skill tag.

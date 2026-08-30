@@ -38,6 +38,7 @@ ReplaceRule = TypedDict(
 class StatusConfig(TypedDict):
     enabled: bool
     ignoredFiles: list[str]
+    spriteFixes: dict[str, str]
 
 
 class MoveFilesConfig(TypedDict):

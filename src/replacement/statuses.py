@@ -1,5 +1,6 @@
 import re
 
+from data_collection.globals import config
 from src.models.json_structure import Match, ReplaceRule
 
 
@@ -38,14 +39,17 @@ def add_status_regex(replace_config: list[ReplaceRule], status_files: list[str])
 
     name_to_id = invert_map_with_warnings(ordered_status_names)
 
-    def repl_name(match: Match[str]):
-        name = match.group(1)
-        id_ = name_to_id[name]
-        return f'<link="{id_}"><sprite name="{id_}"></link>'
+    sprite_fixes = config["statuses"]["spriteFixes"]
 
-    def repl_id(match: Match[str]):
-        id_ = match.group(1)
-        return f'<link="{id_}"><sprite name="{id_}"></link>'
+    def _repl_with_sprite(id_: str) -> str:
+        sprite = sprite_fixes.get(id_, id_)
+        return f'<link="{id_}"><sprite name="{sprite}"></link>'
+
+    def repl_name(match: Match[str]) -> str:
+        return _repl_with_sprite(name_to_id[match.group(1)])
+
+    def repl_id(match: Match[str]) -> str:
+        return _repl_with_sprite(match.group(1))
 
     status_sprite_remove: ReplaceRule = {
         "fields": ["desc"],
